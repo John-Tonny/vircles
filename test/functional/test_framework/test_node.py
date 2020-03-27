@@ -60,7 +60,7 @@ class TestNode():
     To make things easier for the test writer, any unrecognised messages will
     be dispatched to the RPC connection."""
 
-    def __init__(self, i, datadir, *, chain, rpchost, timewait, syscoind, syscoin_cli, coverage_dir, cwd, extra_conf=None, extra_args=None, use_cli=False, start_perf=False, use_valgrind=False):
+    def __init__(self, i, datadir, *, chain, rpchost, timewait, syscoind, vircles_cli, coverage_dir, cwd, extra_conf=None, extra_args=None, use_cli=False, start_perf=False, use_valgrind=False):
         """
         Kwargs:
             start_perf (bool): If True, begin profiling the node with `perf` as soon as
@@ -107,7 +107,7 @@ class TestNode():
                          "--gen-suppressions=all", "--exit-on-first-error=yes",
                          "--error-exitcode=1", "--quiet"] + self.args
 
-        self.cli = TestNodeCLI(syscoin_cli, self.datadir)
+        self.cli = TestNodeCLI(vircles_cli, self.datadir)
         self.use_cli = use_cli
         self.start_perf = start_perf
 

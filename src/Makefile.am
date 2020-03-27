@@ -27,7 +27,7 @@ SYSCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 LIBSYSCOIN_SERVER=libsyscoin_server.a
 LIBSYSCOIN_COMMON=libsyscoin_common.a
 LIBSYSCOIN_CONSENSUS=libsyscoin_consensus.a
-LIBSYSCOIN_CLI=libsyscoin_cli.a
+LIBSYSCOIN_CLI=libvircles_cli.a
 LIBSYSCOIN_UTIL=libsyscoin_util.a
 LIBSYSCOIN_CRYPTO_BASE=crypto/libsyscoin_crypto_base.a
 LIBSYSCOINQT=qt/libsyscoinqt.a
@@ -631,9 +631,9 @@ AM_LDFLAGS += $(COMPAT_LDFLAGS)
 endif
 
 # cli: shared between vircles-cli and syscoin-qt
-libsyscoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
-libsyscoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libsyscoin_cli_a_SOURCES = \
+libvircles_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
+libvircles_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libvircles_cli_a_SOURCES = \
   compat/stdin.h \
   compat/stdin.cpp \
   rpc/client.cpp \
@@ -672,22 +672,22 @@ syscoind_LDADD = \
 syscoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
 
 # vircles-cli binary #
-syscoin_cli_SOURCES = vircles-cli.cpp
-syscoin_cli_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES) $(EVENT_CFLAGS)
-syscoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-syscoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+vircles_cli_SOURCES = vircles-cli.cpp
+vircles_cli_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES) $(EVENT_CFLAGS)
+vircles_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+vircles_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-syscoin_cli_SOURCES += vircles-cli-res.rc
+vircles_cli_SOURCES += vircles-cli-res.rc
 endif
 
-syscoin_cli_LDADD = \
+vircles_cli_LDADD = \
   $(LIBSYSCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBSYSCOIN_UTIL) \
   $(LIBSYSCOIN_CRYPTO)
 
-syscoin_cli_LDADD += $(BOOST_LIBS) $(EVENT_LIBS)
+vircles_cli_LDADD += $(BOOST_LIBS) $(EVENT_LIBS)
 #
 
 # syscoin-tx binary #

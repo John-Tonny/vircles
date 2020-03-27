@@ -393,7 +393,7 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
                 rpchost=rpchost,
                 timewait=self.rpc_timeout,
                 syscoind=binary[i],
-                syscoin_cli=self.options.syscoincli,
+                vircles_cli=self.options.syscoincli,
                 coverage_dir=self.options.coveragedir,
                 cwd=self.options.tmpdir,
                 extra_conf=extra_confs[i],
@@ -537,7 +537,7 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
                     rpchost=None,
                     timewait=self.rpc_timeout,
                     syscoind=self.options.syscoind,
-                    syscoin_cli=self.options.syscoincli,
+                    vircles_cli=self.options.syscoincli,
                     coverage_dir=None,
                     cwd=self.options.tmpdir,
                 ))

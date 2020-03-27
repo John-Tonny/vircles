@@ -449,8 +449,8 @@ AC_ARG_WITH([utils],
 AC_ARG_ENABLE([util-cli],
   [AS_HELP_STRING([--enable-util-cli],
   [build vircles-cli])],
-  [build_syscoin_cli=$enableval],
-  [build_syscoin_cli=$build_syscoin_utils])
+  [build_vircles_cli=$enableval],
+  [build_vircles_cli=$build_syscoin_utils])
 
 AC_ARG_ENABLE([util-tx],
   [AS_HELP_STRING([--enable-util-tx],
@@ -1008,7 +1008,7 @@ dnl enable-fuzz should disable all other targets
 if test "x$enable_fuzz" = "xyes"; then
   AC_MSG_WARN(enable-fuzz will disable all other targets)
   build_syscoin_utils=no
-  build_syscoin_cli=no
+  build_vircles_cli=no
   build_syscoin_tx=no
   build_syscoin_wallet=no
   build_syscoind=no
@@ -1066,7 +1066,7 @@ SYSCOIN_QT_INIT
 dnl sets $syscoin_enable_qt, $syscoin_enable_qt_test, $syscoin_enable_qt_dbus
 SYSCOIN_QT_CONFIGURE([$use_pkgconfig])
 
-if test x$build_syscoin_wallet$build_syscoin_cli$build_syscoin_tx$build_syscoind$syscoin_enable_qt$use_tests$use_bench = xnonononononono; then
+if test x$build_syscoin_wallet$build_vircles_cli$build_syscoin_tx$build_syscoind$syscoin_enable_qt$use_tests$use_bench = xnonononononono; then
     use_boost=no
 else
     use_boost=yes
@@ -1251,7 +1251,7 @@ if test x$use_pkgconfig = xyes; then
       if test x$use_qr != xno; then
         SYSCOIN_QT_CHECK([PKG_CHECK_MODULES([QR], [libqrencode], [have_qrencode=yes], [have_qrencode=no])])
       fi
-      if test x$build_syscoin_cli$build_syscoind$syscoin_enable_qt$use_tests != xnononono; then
+      if test x$build_vircles_cli$build_syscoind$syscoin_enable_qt$use_tests != xnononono; then
         PKG_CHECK_MODULES([EVENT], [libevent],, [AC_MSG_ERROR(libevent not found.)])
         if test x$TARGET_OS != xwindows; then
           PKG_CHECK_MODULES([EVENT_PTHREADS], [libevent_pthreads],, [AC_MSG_ERROR(libevent_pthreads not found.)])
@@ -1271,7 +1271,7 @@ if test x$use_pkgconfig = xyes; then
   )
 else
 
-  if test x$build_syscoin_cli$build_syscoind$syscoin_enable_qt$use_tests != xnononono; then
+  if test x$build_vircles_cli$build_syscoind$syscoin_enable_qt$use_tests != xnononono; then
     AC_CHECK_HEADER([event2/event.h],, AC_MSG_ERROR(libevent headers missing),)
     AC_CHECK_LIB([event],[main],EVENT_LIBS=-levent,AC_MSG_ERROR(libevent missing))
     if test x$TARGET_OS != xwindows; then
@@ -1328,7 +1328,7 @@ dnl univalue check
 
 need_bundled_univalue=yes
 
-if test x$build_syscoin_wallet$build_syscoin_cli$build_syscoin_tx$build_syscoind$syscoin_enable_qt$use_tests$use_bench = xnonononononono; then
+if test x$build_syscoin_wallet$build_vircles_cli$build_syscoin_tx$build_syscoind$syscoin_enable_qt$use_tests$use_bench = xnonononononono; then
   need_bundled_univalue=no
 else
 
@@ -1377,8 +1377,8 @@ AM_CONDITIONAL([BUILD_SYSCOIND], [test x$build_syscoind = xyes])
 AC_MSG_RESULT($build_syscoind)
 
 AC_MSG_CHECKING([whether to build vircles-cli])
-AM_CONDITIONAL([BUILD_SYSCOIN_CLI], [test x$build_syscoin_cli = xyes])
-AC_MSG_RESULT($build_syscoin_cli)
+AM_CONDITIONAL([BUILD_SYSCOIN_CLI], [test x$build_vircles_cli = xyes])
+AC_MSG_RESULT($build_vircles_cli)
 
 AC_MSG_CHECKING([whether to build syscoin-tx])
 AM_CONDITIONAL([BUILD_SYSCOIN_TX], [test x$build_syscoin_tx = xyes])
@@ -1511,7 +1511,7 @@ else
   AC_MSG_RESULT([no])
 fi
 
-if test x$build_syscoin_wallet$build_syscoin_cli$build_syscoin_tx$build_syscoin_libs$build_syscoind$syscoin_enable_qt$use_bench$use_tests = xnononononononono; then
+if test x$build_syscoin_wallet$build_vircles_cli$build_syscoin_tx$build_syscoin_libs$build_syscoind$syscoin_enable_qt$use_bench$use_tests = xnononononononono; then
   AC_MSG_ERROR([No targets! Please specify at least one of: --with-utils --with-libs --with-daemon --with-gui --enable-bench or --enable-tests])
 fi
 

@@ -113,7 +113,7 @@ BASE_SCRIPTS = [
     'wallet_keypool_topup.py',
     'feature_fee_estimation.py',
     'interface_zmq.py',
-    'interface_syscoin_cli.py',
+    'interface_vircles_cli.py',
     'mempool_resurrect.py',
     'wallet_txn_doublespend.py --mineblock',
     'tool_wallet.py',

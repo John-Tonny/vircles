@@ -29,7 +29,7 @@
     <ProjectReference Include="..\libsyscoinconsensus\libsyscoinconsensus.vcxproj">
       <Project>{2b384fa8-9ee1-4544-93cb-0d733c25e8ce}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\libsyscoin_cli\libsyscoin_cli.vcxproj">
+    <ProjectReference Include="..\libvircles_cli\libvircles_cli.vcxproj">
       <Project>{0667528c-d734-4009-adf9-c0d6c4a5a5a6}</Project>
     </ProjectReference>
     <ProjectReference Include="..\libsyscoin_common\libsyscoin_common.vcxproj">
