@@ -149,3 +149,17 @@ db4/
 osx_volname
 dist/
 *.background.tiff
+
+# add new luke
+libvirclesconsensus.pc
+src/bench/bench_vircles
+src/config/vircles-config.h
+src/config/vircles-config.h.in
+src/qt/test/test_vircles-qt
+src/qt/vircles-qt
+src/test/test_vircles
+src/vircles-cli
+src/vircles-tx
+src/vircles-wallet
+src/virclesd
+
