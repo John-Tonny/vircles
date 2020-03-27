@@ -133,7 +133,7 @@ void StopNodes()
 void StartNode(const string &dataDirIn, bool regTest, const string& extraArgs, bool reindex)
 {
 	string dataDir = LookupURLLocal(dataDirIn);
-	boost::filesystem::path fpath = boost::filesystem::system_complete("./syscoind");
+	boost::filesystem::path fpath = boost::filesystem::system_complete("./virclesd");
 	string nodePath = fpath.string() + string(" -server -rpcuser=u -rpcpassword=p -unittest -tpstest -assetindex -daemon -server -debug=0");
 	nodePath += string(" -datadir=") + dataDir;
 	if (regTest)
@@ -927,7 +927,7 @@ string AssetUpdate(const string& node, const string& guid, const string& pubdata
 	string hex_str = find_value(r.get_obj(), "hex").get_str();
    
 	BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "sendrawtransaction", "\"" + hex_str + "\"")); 
-	BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "syscoindecoderawtransaction",  "\"" + hex_str + "\""));
+	BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "virclesdecoderawtransaction",  "\"" + hex_str + "\""));
 	UniValue flagValue = find_value(r.get_obj(), "update_flags");
 	BOOST_CHECK_EQUAL(flagValue.get_uint(), newflags);
 	// ensure sender state not changed before generating blocks
@@ -1089,7 +1089,7 @@ string AssetAllocationTransfer(const bool usezdag, const string& node, const str
 
 
 	BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "sendrawtransaction", "\"" + hex_str + "\""));
-	BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "syscoindecoderawtransaction", "\"" + hex_str + "\""));
+	BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "virclesdecoderawtransaction", "\"" + hex_str + "\""));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "txtype").get_str(), "assetallocationsend");
 	if (!theAssetAllocation.listSendingAllocationAmounts.empty())
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "allocations").get_array().size(), theAssetAllocation.listSendingAllocationAmounts.size());
@@ -1187,7 +1187,7 @@ void LockAssetAllocation(const string& node, const string &guid, const string &a
     string hexStr = find_value(r.get_obj(), "hex").get_str();
     BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "decoderawtransaction" , "\"" + hexStr + "\""));
     BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "sendrawtransaction" , "\"" + hexStr + "\""));  
-    BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "syscoindecoderawtransaction" ,"\"" + hexStr + "\""));
+    BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "virclesdecoderawtransaction" ,"\"" + hexStr + "\""));
 
     BOOST_CHECK_EQUAL(find_value(r.get_obj(), "txtype").get_str(), "assetallocationlock");
     BOOST_CHECK_EQUAL(find_value(r.get_obj(), "locked_outpoint").get_str() , outpointStr);  
@@ -1278,7 +1278,7 @@ string AssetSend(const string& node, const string& guid, const string& inputs, c
 			}
 		}
 	}
-	BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "syscoindecoderawtransaction" , "\"" + hex_str + "\""));
+	BOOST_CHECK_NO_THROW(r = CallExtRPC(node, "virclesdecoderawtransaction" , "\"" + hex_str + "\""));
 	BOOST_CHECK_EQUAL(find_value(r.get_obj(), "txtype").get_str(), "assetsend");
 	if (!theAssetAllocation.listSendingAllocationAmounts.empty())
 		BOOST_CHECK_EQUAL(find_value(r.get_obj(), "allocations").get_array().size(), theAssetAllocation.listSendingAllocationAmounts.size());

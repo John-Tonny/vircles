@@ -17,13 +17,13 @@ BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
             VALUE "CompanyName",        "Syscoin"
-            VALUE "FileDescription",    "syscoin-wallet (CLI tool for " PACKAGE_NAME " wallets)"
+            VALUE "FileDescription",    "vircles-tx (CLI Syscoin transaction editor utility)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
-            VALUE "InternalName",       "syscoin-wallet"
+            VALUE "InternalName",       "vircles-tx"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "syscoin-wallet.exe"
-            VALUE "ProductName",        "syscoin-wallet"
+            VALUE "OriginalFilename",   "vircles-tx.exe"
+            VALUE "ProductName",        "vircles-tx"
             VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
         END
     END

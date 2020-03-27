@@ -98,9 +98,9 @@ static int AppInitRawTx(int argc, char* argv[])
 
     if (argc < 2 || HelpRequested(gArgs)) {
         // First part of help message is specific to this utility
-        std::string strUsage = PACKAGE_NAME " syscoin-tx utility version " + FormatFullVersion() + "\n\n" +
-            "Usage:  syscoin-tx [options] <hex-tx> [commands]  Update hex-encoded syscoin transaction\n" +
-            "or:     syscoin-tx [options] -create [commands]   Create hex-encoded syscoin transaction\n" +
+        std::string strUsage = PACKAGE_NAME " vircles-tx utility version " + FormatFullVersion() + "\n\n" +
+            "Usage:  vircles-tx [options] <hex-tx> [commands]  Update hex-encoded syscoin transaction\n" +
+            "or:     vircles-tx [options] -create [commands]   Create hex-encoded syscoin transaction\n" +
             "\n";
         strUsage += gArgs.GetHelpMessage();
 

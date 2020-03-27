@@ -5,9 +5,9 @@ dnl file COPYING or http://www.opensource.org/licenses/mit-license.php.
 dnl Helper for cases where a qt dependency is not met.
 dnl Output: If qt version is auto, set syscoin_enable_qt to false. Else, exit.
 AC_DEFUN([SYSCOIN_QT_FAIL],[
-  if test "x$syscoin_qt_want_version" = xauto && test "x$syscoin_qt_force" != xyes; then
+  if test "x$vircles_qt_want_version" = xauto && test "x$vircles_qt_force" != xyes; then
     if test "x$syscoin_enable_qt" != xno; then
-      AC_MSG_WARN([$1; syscoin-qt frontend will not be built])
+      AC_MSG_WARN([$1; vircles-qt frontend will not be built])
     fi
     syscoin_enable_qt=no
     syscoin_enable_qt_test=no
@@ -17,7 +17,7 @@ AC_DEFUN([SYSCOIN_QT_FAIL],[
 ])
 
 AC_DEFUN([SYSCOIN_QT_CHECK],[
-  if test "x$syscoin_enable_qt" != xno && test "x$syscoin_qt_want_version" != xno; then
+  if test "x$syscoin_enable_qt" != xno && test "x$vircles_qt_want_version" != xno; then
     true
     $1
   else
@@ -54,15 +54,15 @@ AC_DEFUN([SYSCOIN_QT_INIT],[
   dnl enable qt support
   AC_ARG_WITH([gui],
     [AS_HELP_STRING([--with-gui@<:@=no|qt5|auto@:>@],
-    [build syscoin-qt GUI (default=auto)])],
+    [build vircles-qt GUI (default=auto)])],
     [
-     syscoin_qt_want_version=$withval
-     if test "x$syscoin_qt_want_version" = xyes; then
-       syscoin_qt_force=yes
-       syscoin_qt_want_version=auto
+     vircles_qt_want_version=$withval
+     if test "x$vircles_qt_want_version" = xyes; then
+       vircles_qt_force=yes
+       vircles_qt_want_version=auto
      fi
     ],
-    [syscoin_qt_want_version=auto])
+    [vircles_qt_want_version=auto])
 
   AC_ARG_WITH([qt-incdir],[AS_HELP_STRING([--with-qt-incdir=INC_DIR],[specify qt include path (overridden by pkgconfig)])], [qt_include_path=$withval], [])
   AC_ARG_WITH([qt-libdir],[AS_HELP_STRING([--with-qt-libdir=LIB_DIR],[specify qt lib path (overridden by pkgconfig)])], [qt_lib_path=$withval], [])
@@ -410,9 +410,9 @@ AC_DEFUN([_SYSCOIN_QT_FIND_STATIC_PLUGINS],[
 ])
 
 dnl Internal. Find Qt libraries using pkg-config.
-dnl Inputs: syscoin_qt_want_version (from --with-gui=). The version to check
+dnl Inputs: vircles_qt_want_version (from --with-gui=). The version to check
 dnl         first.
-dnl Inputs: $1: If syscoin_qt_want_version is "auto", check for this version
+dnl Inputs: $1: If vircles_qt_want_version is "auto", check for this version
 dnl         first.
 dnl Outputs: All necessary QT_* variables are set.
 dnl Outputs: have_qt_test and have_qt_dbus are set (if applicable) to yes|no.
@@ -440,7 +440,7 @@ AC_DEFUN([_SYSCOIN_QT_FIND_LIBS_WITH_PKGCONFIG],[
 
 dnl Internal. Find Qt libraries without using pkg-config. Version is deduced
 dnl from the discovered headers.
-dnl Inputs: syscoin_qt_want_version (from --with-gui=). The version to use.
+dnl Inputs: vircles_qt_want_version (from --with-gui=). The version to use.
 dnl         If "auto", the version will be discovered by _SYSCOIN_QT_CHECK_QT5.
 dnl Outputs: All necessary QT_* variables are set.
 dnl Outputs: have_qt_test and have_qt_dbus are set (if applicable) to yes|no.
@@ -461,7 +461,7 @@ AC_DEFUN([_SYSCOIN_QT_FIND_LIBS_WITHOUT_PKGCONFIG],[
   SYSCOIN_QT_CHECK([AC_CHECK_HEADER([QLocalSocket],, SYSCOIN_QT_FAIL(QtNetwork headers missing))])
 
   SYSCOIN_QT_CHECK([
-    if test "x$syscoin_qt_want_version" = xauto; then
+    if test "x$vircles_qt_want_version" = xauto; then
       _SYSCOIN_QT_CHECK_QT5
       _SYSCOIN_QT_CHECK_QT58
     fi

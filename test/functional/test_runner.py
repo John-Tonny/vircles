@@ -290,9 +290,9 @@ def main():
 
     logging.debug("Temporary test directory at %s" % tmpdir)
 
-    enable_syscoind = config["components"].getboolean("ENABLE_SYSCOIND")
+    enable_virclesd = config["components"].getboolean("ENABLE_SYSCOIND")
 
-    if not enable_syscoind:
+    if not enable_virclesd:
         print("No functional tests to run.")
         print("Rerun ./configure with --with-daemon and then make")
         sys.exit(0)
@@ -374,11 +374,11 @@ def main():
 def run_tests(*, test_list, src_dir, build_dir, tmpdir, jobs=1, enable_coverage=False, args=None, combined_logs_len=0, failfast=False, runs_ci, use_term_control):
     args = args or []
 
-    # Warn if syscoind is already running
-    # pidof might fail or return an empty string if syscoind is not running
+    # Warn if virclesd is already running
+    # pidof might fail or return an empty string if virclesd is not running
     try:
-        if subprocess.check_output(["pidof", "syscoind"]) not in [b'']:
-            print("%sWARNING!%s There is already a syscoind process running on this system. Tests may fail unexpectedly due to resource contention!" % (BOLD[1], BOLD[0]))
+        if subprocess.check_output(["pidof", "virclesd"]) not in [b'']:
+            print("%sWARNING!%s There is already a virclesd process running on this system. Tests may fail unexpectedly due to resource contention!" % (BOLD[1], BOLD[0]))
     except (OSError, subprocess.SubprocessError):
         pass
 

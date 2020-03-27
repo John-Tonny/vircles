@@ -216,7 +216,7 @@ void CMasternode::Check(bool fForce)
         }
         
 
-        // part 1: expire based on syscoind ping
+        // part 1: expire based on virclesd ping
         bool fSentinelPingExpired = masternodeSync.IsSynced() && !IsPingedWithin(MASTERNODE_SENTINEL_PING_MAX_SECONDS);
         LogPrint(BCLog::MN, "CMasternode::Check -- outpoint=%s, GetAdjustedTime()=%d, fSentinelPingExpired=%d\n",
                 outpoint.ToStringShort(), GetAdjustedTime(), fSentinelPingExpired);

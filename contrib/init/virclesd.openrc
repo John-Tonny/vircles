@@ -5,23 +5,23 @@
 if [ -d "/var/lib/syscoin/.syscoin" ]; then
 	SYSCOIND_DEFAULT_DATADIR="/var/lib/syscoin/.syscoin"
 else
-	SYSCOIND_DEFAULT_DATADIR="/var/lib/syscoind"
+	SYSCOIND_DEFAULT_DATADIR="/var/lib/virclesd"
 fi
 
 SYSCOIND_CONFIGFILE=${SYSCOIND_CONFIGFILE:-/etc/syscoin/syscoin.conf}
-SYSCOIND_PIDDIR=${SYSCOIND_PIDDIR:-/var/run/syscoind}
-SYSCOIND_PIDFILE=${SYSCOIND_PIDFILE:-${SYSCOIND_PIDDIR}/syscoind.pid}
+SYSCOIND_PIDDIR=${SYSCOIND_PIDDIR:-/var/run/virclesd}
+SYSCOIND_PIDFILE=${SYSCOIND_PIDFILE:-${SYSCOIND_PIDDIR}/virclesd.pid}
 SYSCOIND_DATADIR=${SYSCOIND_DATADIR:-${SYSCOIND_DEFAULT_DATADIR}}
 SYSCOIND_USER=${SYSCOIND_USER:-${SYSCOIN_USER:-syscoin}}
 SYSCOIND_GROUP=${SYSCOIND_GROUP:-syscoin}
-SYSCOIND_BIN=${SYSCOIND_BIN:-/usr/bin/syscoind}
+SYSCOIND_BIN=${SYSCOIND_BIN:-/usr/bin/virclesd}
 SYSCOIND_NICE=${SYSCOIND_NICE:-${NICELEVEL:-0}}
 SYSCOIND_OPTS="${SYSCOIND_OPTS:-${SYSCOIN_OPTS}}"
 
 name="Syscoin Core Daemon"
 description="Syscoin cryptocurrency P2P network daemon"
 
-command="/usr/bin/syscoind"
+command="/usr/bin/virclesd"
 command_args="-pid=\"${SYSCOIND_PIDFILE}\" \
 		-conf=\"${SYSCOIND_CONFIGFILE}\" \
 		-datadir=\"${SYSCOIND_DATADIR}\" \
@@ -71,7 +71,7 @@ checkconfig()
 {
 	if ! grep -qs '^rpcpassword=' "${SYSCOIND_CONFIGFILE}" ; then
 		eerror ""
-		eerror "ERROR: You must set a secure rpcpassword to run syscoind."
+		eerror "ERROR: You must set a secure rpcpassword to run virclesd."
 		eerror "The setting must appear in ${SYSCOIND_CONFIGFILE}"
 		eerror ""
 		eerror "This password is security critical to securing wallets "

@@ -138,9 +138,9 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
     def parse_args(self):
         parser = argparse.ArgumentParser(usage="%(prog)s [options]")
         parser.add_argument("--nocleanup", dest="nocleanup", default=False, action="store_true",
-                            help="Leave syscoinds and test.* datadir on exit or error")
+                            help="Leave virclesds and test.* datadir on exit or error")
         parser.add_argument("--noshutdown", dest="noshutdown", default=False, action="store_true",
-                            help="Don't stop syscoinds after the test execution")
+                            help="Don't stop virclesds after the test execution")
         parser.add_argument("--cachedir", dest="cachedir", default=os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + "/../../cache"),
                             help="Directory for caching pregenerated datadirs (default: %(default)s)")
         parser.add_argument("--tmpdir", dest="tmpdir", help="Root directory for datadirs")
@@ -180,7 +180,7 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
         config = configparser.ConfigParser()
         config.read_file(open(self.options.configfile))
         self.config = config
-        self.options.syscoind = os.getenv("SYSCOIND", default=config["environment"]["BUILDDIR"] + '/src/syscoind' + config["environment"]["EXEEXT"])
+        self.options.virclesd = os.getenv("SYSCOIND", default=config["environment"]["BUILDDIR"] + '/src/virclesd' + config["environment"]["EXEEXT"])
         self.options.syscoincli = os.getenv("SYSCOINCLI", default=config["environment"]["BUILDDIR"] + '/src/vircles-cli' + config["environment"]["EXEEXT"])
 
         os.environ['PATH'] = os.pathsep.join([
@@ -243,7 +243,7 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
         else:
             for node in self.nodes:
                 node.cleanup_on_exit = False
-            self.log.info("Note: syscoinds were not stopped and may still be running")
+            self.log.info("Note: virclesds were not stopped and may still be running")
 
         should_clean_up = (
             not self.options.nocleanup and
@@ -381,7 +381,7 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
         if extra_args is None:
             extra_args = [[]] * num_nodes
         if binary is None:
-            binary = [self.options.syscoind] * num_nodes
+            binary = [self.options.virclesd] * num_nodes
         assert_equal(len(extra_confs), num_nodes)
         assert_equal(len(extra_args), num_nodes)
         assert_equal(len(binary), num_nodes)
@@ -392,7 +392,7 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
                 chain=self.chain,
                 rpchost=rpchost,
                 timewait=self.rpc_timeout,
-                syscoind=binary[i],
+                virclesd=binary[i],
                 vircles_cli=self.options.syscoincli,
                 coverage_dir=self.options.coveragedir,
                 cwd=self.options.tmpdir,
@@ -404,7 +404,7 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
             ))
 
     def start_node(self, i, *args, **kwargs):
-        """Start a syscoind"""
+        """Start a virclesd"""
 
         node = self.nodes[i]
 
@@ -415,7 +415,7 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
             coverage.write_all_rpc_commands(self.options.coveragedir, node.rpc)
 
     def start_nodes(self, extra_args=None, *args, **kwargs):
-        """Start multiple syscoinds"""
+        """Start multiple virclesds"""
 
         if extra_args is None:
             extra_args = [None] * self.num_nodes
@@ -435,12 +435,12 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
                 coverage.write_all_rpc_commands(self.options.coveragedir, node.rpc)
 
     def stop_node(self, i, expected_stderr='', wait=0):
-        """Stop a syscoind test node"""
+        """Stop a virclesd test node"""
         self.nodes[i].stop_node(expected_stderr, wait=wait)
         self.nodes[i].wait_until_stopped()
 
     def stop_nodes(self, wait=0):
-        """Stop multiple syscoind test nodes"""
+        """Stop multiple virclesd test nodes"""
         for node in self.nodes:
             # Issue RPC to stop nodes
             node.stop_node(wait=wait)
@@ -497,7 +497,7 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
         # User can provide log level as a number or string (eg DEBUG). loglevel was caught as a string, so try to convert it to an int
         ll = int(self.options.loglevel) if self.options.loglevel.isdigit() else self.options.loglevel.upper()
         ch.setLevel(ll)
-        # Format logs the same as syscoind's debug.log with microprecision (so log files can be concatenated and sorted)
+        # Format logs the same as virclesd's debug.log with microprecision (so log files can be concatenated and sorted)
         formatter = logging.Formatter(fmt='%(asctime)s.%(msecs)03d000Z %(name)s (%(levelname)s): %(message)s', datefmt='%Y-%m-%dT%H:%M:%S')
         formatter.converter = time.gmtime
         fh.setFormatter(formatter)
@@ -536,7 +536,7 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
                     extra_args=['-disablewallet'],
                     rpchost=None,
                     timewait=self.rpc_timeout,
-                    syscoind=self.options.syscoind,
+                    virclesd=self.options.virclesd,
                     vircles_cli=self.options.syscoincli,
                     coverage_dir=None,
                     cwd=self.options.tmpdir,
@@ -593,10 +593,10 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
         except ImportError:
             raise SkipTest("python3-zmq module not available.")
 
-    def skip_if_no_syscoind_zmq(self):
-        """Skip the running test if syscoind has not been compiled with zmq support."""
+    def skip_if_no_virclesd_zmq(self):
+        """Skip the running test if virclesd has not been compiled with zmq support."""
         if not self.is_zmq_compiled():
-            raise SkipTest("syscoind has not been built with zmq enabled.")
+            raise SkipTest("virclesd has not been built with zmq enabled.")
 
     def skip_if_no_wallet(self):
         """Skip the running test if wallet has not been compiled."""
@@ -604,9 +604,9 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
             raise SkipTest("wallet has not been compiled.")
 
     def skip_if_no_wallet_tool(self):
-        """Skip the running test if syscoin-wallet has not been compiled."""
+        """Skip the running test if vircles-wallet has not been compiled."""
         if not self.is_wallet_tool_compiled():
-            raise SkipTest("syscoin-wallet has not been compiled")
+            raise SkipTest("vircles-wallet has not been compiled")
 
     def skip_if_no_cli(self):
         """Skip the running test if vircles-cli has not been compiled."""
@@ -622,7 +622,7 @@ class SyscoinTestFramework(metaclass=SyscoinTestMetaClass):
         return self.config["components"].getboolean("ENABLE_WALLET")
 
     def is_wallet_tool_compiled(self):
-        """Checks whether syscoin-wallet was compiled."""
+        """Checks whether vircles-wallet was compiled."""
         return self.config["components"].getboolean("ENABLE_WALLET_TOOL")
 
     def is_zmq_compiled(self):

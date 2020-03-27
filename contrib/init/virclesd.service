@@ -1,7 +1,7 @@
 # It is not recommended to modify this file in-place, because it will
 # be overwritten during package upgrades. If you want to add further
 # options or overwrite existing ones then use
-# $ systemctl edit syscoind.service
+# $ systemctl edit virclesd.service
 # See "man systemd.service" for details.
 
 # Note that almost all daemon options could be specified in
@@ -14,10 +14,10 @@ Description=Syscoin daemon
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/syscoind -daemon \
-                            -pid=/run/syscoind/syscoind.pid \
+ExecStart=/usr/bin/virclesd -daemon \
+                            -pid=/run/virclesd/virclesd.pid \
                             -conf=/etc/syscoin/syscoin.conf \
-                            -datadir=/var/lib/syscoind
+                            -datadir=/var/lib/virclesd
 
 # Make sure the config directory is readable by the service user
 PermissionsStartOnly=true
@@ -27,7 +27,7 @@ ExecStartPre=/bin/chgrp syscoin /etc/syscoin
 ####################
 
 Type=forking
-PIDFile=/run/syscoind/syscoind.pid
+PIDFile=/run/virclesd/virclesd.pid
 Restart=on-failure
 TimeoutStopSec=600
 
@@ -38,16 +38,16 @@ TimeoutStopSec=600
 User=syscoin
 Group=syscoin
 
-# /run/syscoind
-RuntimeDirectory=syscoind
+# /run/virclesd
+RuntimeDirectory=virclesd
 RuntimeDirectoryMode=0710
 
 # /etc/syscoin
 ConfigurationDirectory=syscoin
 ConfigurationDirectoryMode=0710
 
-# /var/lib/syscoind
-StateDirectory=syscoind
+# /var/lib/virclesd
+StateDirectory=virclesd
 StateDirectoryMode=0710
 
 # Hardening measures

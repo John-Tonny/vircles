@@ -691,9 +691,9 @@ UniValue listassetallocationmempoolbalances(const JSONRPCRequest& request) {
     return oRes;
 }
 
-UniValue syscoindecoderawtransaction(const JSONRPCRequest& request) {
+UniValue virclesdecoderawtransaction(const JSONRPCRequest& request) {
     const UniValue &params = request.params;
-    RPCHelpMan{"syscoindecoderawtransaction",
+    RPCHelpMan{"virclesdecoderawtransaction",
     "\nDecode raw syscoin transaction (serialized, hex-encoded) and display information pertaining to the service that is included in the transactiion data output(OP_RETURN)\n",
     {
         {"hexstring", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The transaction hex string."}
@@ -718,8 +718,8 @@ UniValue syscoindecoderawtransaction(const JSONRPCRequest& request) {
     "}\n"
     },
     RPCExamples{
-        HelpExampleCli("syscoindecoderawtransaction", "\"hexstring\"")
-        + HelpExampleRpc("syscoindecoderawtransaction", "\"hexstring\"")
+        HelpExampleCli("virclesdecoderawtransaction", "\"hexstring\"")
+        + HelpExampleRpc("virclesdecoderawtransaction", "\"hexstring\"")
     }
     }.Check(request);
 
@@ -1471,7 +1471,7 @@ static const CRPCCommand commands[] =
     { "syscoin",            "getblockhashbytxid",               &getblockhashbytxid,            {"txid"} },
     { "syscoin",            "syscoingetspvproof",               &syscoingetspvproof,            {"txid"} },
     { "syscoin",            "convertaddress",                   &convertaddress,                {"address"} },
-    { "syscoin",            "syscoindecoderawtransaction",      &syscoindecoderawtransaction,   {}},
+    { "syscoin",            "virclesdecoderawtransaction",      &virclesdecoderawtransaction,   {}},
     { "syscoin",            "addressbalance",                   &addressbalance,                {}},
     { "syscoin",            "assetinfo",                        &assetinfo,                     {"asset_guid"}},
     { "syscoin",            "listassets",                       &listassets,                    {"count","from","options"} },

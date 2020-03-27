@@ -7,11 +7,11 @@ BUILDDIR=${BUILDDIR:-$TOPDIR}
 BINDIR=${BINDIR:-$BUILDDIR/src}
 MANDIR=${MANDIR:-$TOPDIR/doc/man}
 
-SYSCOIND=${SYSCOIND:-$BINDIR/syscoind}
+SYSCOIND=${SYSCOIND:-$BINDIR/virclesd}
 SYSCOINCLI=${SYSCOINCLI:-$BINDIR/vircles-cli}
-SYSCOINTX=${SYSCOINTX:-$BINDIR/syscoin-tx}
-WALLET_TOOL=${WALLET_TOOL:-$BINDIR/syscoin-wallet}
-SYSCOINQT=${SYSCOINQT:-$BINDIR/qt/syscoin-qt}
+SYSCOINTX=${SYSCOINTX:-$BINDIR/vircles-tx}
+WALLET_TOOL=${WALLET_TOOL:-$BINDIR/vircles-wallet}
+SYSCOINQT=${SYSCOINQT:-$BINDIR/qt/vircles-qt}
 
 [ ! -x $SYSCOIND ] && echo "$SYSCOIND not found or not executable." && exit 1
 
@@ -19,8 +19,8 @@ SYSCOINQT=${SYSCOINQT:-$BINDIR/qt/syscoin-qt}
 read -r -a SYSVER <<< "$($SYSCOINCLI --version | head -n1 | awk -F'[ -]' '{ print $6, $7 }')"
 
 # Create a footer file with copyright content.
-# This gets autodetected fine for syscoind if --version-string is not set,
-# but has different outcomes for syscoin-qt and vircles-cli.
+# This gets autodetected fine for virclesd if --version-string is not set,
+# but has different outcomes for vircles-qt and vircles-cli.
 echo "[COPYRIGHT]" > footer.h2m
 $SYSCOIND --version | sed -n '1!p' >> footer.h2m
 

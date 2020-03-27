@@ -2619,7 +2619,7 @@ static UniValue loadwallet(const JSONRPCRequest& request)
 {
             RPCHelpMan{"loadwallet",
                 "\nLoads a wallet from a wallet file or directory."
-                "\nNote that all wallet command-line options used when starting syscoind will be"
+                "\nNote that all wallet command-line options used when starting virclesd will be"
                 "\napplied to the new wallet (eg -zapwallettxes, upgradewallet, rescan, etc).\n",
                 {
                     {"filename", RPCArg::Type::STR, RPCArg::Optional::NO, "The wallet directory or .dat file."},
@@ -3890,7 +3890,7 @@ UniValue getaddressinfo(const JSONRPCRequest& request)
             "                                               as an array to keep the API stable if multiple labels are enabled in the future.\n"
             "    [\n"
             "      \"label name\" (string) The label name. Defaults to \"\". Equivalent to the label field above.\n\n"
-            "      DEPRECATED, will be removed in 0.21. To re-enable, launch syscoind with `-deprecatedrpc=labelspurpose`:\n"
+            "      DEPRECATED, will be removed in 0.21. To re-enable, launch virclesd with `-deprecatedrpc=labelspurpose`:\n"
             "      { (json object of label data)\n"
             "        \"name\" : \"label name\" (string) The label name. Defaults to \"\". Equivalent to the label field above.\n"
             "        \"purpose\" : \"purpose\" (string) The purpose of the associated address (send or receive).\n"

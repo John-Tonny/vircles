@@ -246,7 +246,7 @@ bool Intro::showIfNeeded(interfaces::Node& node, bool& did_show_intro, bool& pru
     }
     /* Only override -datadir if different from the default, to make it possible to
      * override -datadir in the syscoin.conf file in the default data directory
-     * (to be consistent with syscoind behavior)
+     * (to be consistent with virclesd behavior)
      */
     if(dataDir != GUIUtil::getDefaultDataDirectory()) {
         node.softSetArg("-datadir", GUIUtil::qstringToBoostPath(dataDir).string()); // use OS locale for path setting

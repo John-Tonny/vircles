@@ -170,7 +170,7 @@ void SyscoinCore::shutdown()
 }
 
 static int qt_argc = 1;
-static const char* qt_argv = "syscoin-qt";
+static const char* qt_argv = "vircles-qt";
 
 SyscoinApplication::SyscoinApplication(interfaces::Node& node):
     QApplication(qt_argc, const_cast<char **>(&qt_argv)),

@@ -41,8 +41,8 @@ if BUILD_SYSCOIN_LIBS
 LIBSYSCOINCONSENSUS=libsyscoinconsensus.la
 endif
 if ENABLE_WALLET
-LIBSYSCOIN_WALLET=libsyscoin_wallet.a
-LIBSYSCOIN_WALLET_TOOL=libsyscoin_wallet_tool.a
+LIBSYSCOIN_WALLET=libvircles_wallet.a
+LIBSYSCOIN_WALLET_TOOL=libvircles_wallet_tool.a
 endif
 
 LIBSYSCOIN_CRYPTO= $(LIBSYSCOIN_CRYPTO_BASE)
@@ -84,18 +84,18 @@ TESTS =
 BENCHMARKS =
 
 if BUILD_SYSCOIND
-  bin_PROGRAMS += syscoind
+  bin_PROGRAMS += virclesd
 endif
 
 if BUILD_SYSCOIN_CLI
   bin_PROGRAMS += vircles-cli
 endif
 if BUILD_SYSCOIN_TX
-  bin_PROGRAMS += syscoin-tx
+  bin_PROGRAMS += vircles-tx
 endif
 if ENABLE_WALLET
 if BUILD_SYSCOIN_WALLET
-  bin_PROGRAMS += syscoin-wallet
+  bin_PROGRAMS += vircles-wallet
 endif
 endif
 
@@ -322,7 +322,7 @@ if GLIBC_BACK_COMPAT
   ethereum_libethereum_a_SOURCES += compat/glibc_compat.cpp
 endif
 
-# server: shared between syscoind and syscoin-qt
+# server: shared between virclesd and vircles-qt
 # Contains code accessing mempool and chain state that is meant to be separated
 # from wallet and gui code (see node/README.md). Shared code should go in
 # libsyscoin_common or libsyscoin_util libraries, instead.
@@ -421,11 +421,11 @@ libsyscoin_zmq_a_SOURCES = \
 endif
 
 
-# wallet: shared between syscoind and syscoin-qt, but only linked
+# wallet: shared between virclesd and vircles-qt, but only linked
 # when wallet enabled
-libsyscoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
-libsyscoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libsyscoin_wallet_a_SOURCES = \
+libvircles_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
+libvircles_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libvircles_wallet_a_SOURCES = \
   interfaces/wallet.cpp \
   wallet/coincontrol.cpp \
   wallet/crypter.cpp \
@@ -446,9 +446,9 @@ libsyscoin_wallet_a_SOURCES = \
   services/rpc/wallet/assetwalletrpc.cpp \
   $(SYSCOIN_CORE_H)
 
-libsyscoin_wallet_tool_a_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
-libsyscoin_wallet_tool_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libsyscoin_wallet_tool_a_SOURCES = \
+libvircles_wallet_tool_a_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
+libvircles_wallet_tool_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libvircles_wallet_tool_a_SOURCES = \
   wallet/wallettool.cpp \
   $(SYSCOIN_CORE_H)
 
@@ -543,7 +543,7 @@ libsyscoin_consensus_a_SOURCES = \
   util/strencodings.h \
   version.h
 
-# common: shared between syscoind, and syscoin-qt and non-server tools
+# common: shared between virclesd, and vircles-qt and non-server tools
 libsyscoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
 libsyscoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsyscoin_common_a_SOURCES = \
@@ -630,7 +630,7 @@ libsyscoin_util_a_SOURCES += compat/glibc_compat.cpp
 AM_LDFLAGS += $(COMPAT_LDFLAGS)
 endif
 
-# cli: shared between vircles-cli and syscoin-qt
+# cli: shared between vircles-cli and vircles-qt
 libvircles_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
 libvircles_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libvircles_cli_a_SOURCES = \
@@ -642,19 +642,19 @@ libvircles_cli_a_SOURCES = \
 nodist_libsyscoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
-# syscoind binary #
-syscoind_SOURCES = syscoind.cpp
-syscoind_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
-syscoind_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-syscoind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# virclesd binary #
+virclesd_SOURCES = virclesd.cpp
+virclesd_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
+virclesd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+virclesd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-syscoind_SOURCES += syscoind-res.rc
+virclesd_SOURCES += virclesd-res.rc
 endif
 
 # Libraries below may be listed more than once to resolve circular dependencies (see
 # https://eli.thegreenplace.net/2013/07/09/library-order-in-static-linking#circular-dependency)
-syscoind_LDADD = \
+virclesd_LDADD = \
   $(LIBSYSCOIN_SERVER) \
   $(LIBSYSCOIN_WALLET) \
   $(LIBSYSCOIN_COMMON) \
@@ -669,7 +669,7 @@ syscoind_LDADD = \
   $(LIBSECP256K1) \
   $(LIBETHEREUM)
 
-syscoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
+virclesd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
 
 # vircles-cli binary #
 vircles_cli_SOURCES = vircles-cli.cpp
@@ -690,30 +690,30 @@ vircles_cli_LDADD = \
 vircles_cli_LDADD += $(BOOST_LIBS) $(EVENT_LIBS)
 #
 
-# syscoin-tx binary #
-syscoin_tx_SOURCES = syscoin-tx.cpp
-syscoin_tx_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
-syscoin_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-syscoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# vircles-tx binary #
+vircles_tx_SOURCES = vircles-tx.cpp
+vircles_tx_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
+vircles_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+vircles_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-syscoin_tx_SOURCES += syscoin-tx-res.rc
+vircles_tx_SOURCES += vircles-tx-res.rc
 endif
 
-syscoin_tx_LDADD = $(syscoind_LDADD)
+vircles_tx_LDADD = $(virclesd_LDADD)
 #
 
-# syscoin-wallet binary #
-syscoin_wallet_SOURCES = syscoin-wallet.cpp
-syscoin_wallet_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
-syscoin_wallet_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-syscoin_wallet_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# vircles-wallet binary #
+vircles_wallet_SOURCES = vircles-wallet.cpp
+vircles_wallet_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
+vircles_wallet_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+vircles_wallet_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-syscoin_wallet_SOURCES += syscoin-wallet-res.rc
+vircles_wallet_SOURCES += vircles-wallet-res.rc
 endif
 
-syscoin_wallet_LDADD = \
+vircles_wallet_LDADD = \
   $(LIBSYSCOIN_WALLET_TOOL) \
   $(LIBSYSCOIN_WALLET) \
   $(LIBSYSCOIN_SERVER) \
@@ -729,7 +729,7 @@ syscoin_wallet_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBETHEREUM)
 
-syscoin_wallet_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(MINIUPNPC_LIBS) $(ZMQ_LIBS)
+vircles_wallet_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(MINIUPNPC_LIBS) $(ZMQ_LIBS)
 #
 
 # syscoinconsensus library #

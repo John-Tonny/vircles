@@ -8,5 +8,5 @@ packages/*
 */Release
 */x64
 */Win32
-libsyscoin_qt/QtGeneratedFiles/*
-test_syscoin-qt/QtGeneratedFiles/*
+libvircles_qt/QtGeneratedFiles/*
+test_vircles-qt/QtGeneratedFiles/*

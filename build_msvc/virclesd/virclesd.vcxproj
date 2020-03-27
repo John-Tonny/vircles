@@ -9,7 +9,7 @@
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\syscoind.cpp" />
+    <ClCompile Include="..\..\src\virclesd.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libsyscoinconsensus\libsyscoinconsensus.vcxproj">
@@ -27,7 +27,7 @@
     <ProjectReference Include="..\libsyscoin_util\libsyscoin_util.vcxproj">
       <Project>{b53a5535-ee9d-4c6f-9a26-f79ee3bc3754}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\libsyscoin_wallet\libsyscoin_wallet.vcxproj">
+    <ProjectReference Include="..\libvircles_wallet\libvircles_wallet.vcxproj">
       <Project>{93b86837-b543-48a5-a89b-7c87abb77df2}</Project>
     </ProjectReference>
     <ProjectReference Include="..\libsyscoin_zmq\libsyscoin_zmq.vcxproj">

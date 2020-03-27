@@ -6,7 +6,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsyscoinconsensus", "libs
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testconsensus", "testconsensus\testconsensus.vcxproj", "{E78473E9-B850-456C-9120-276301E04C06}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "syscoind", "syscoind\syscoind.vcxproj", "{D4513DDF-6013-44DC-ADCC-12EAF6D1F038}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "virclesd", "virclesd\virclesd.vcxproj", "{D4513DDF-6013-44DC-ADCC-12EAF6D1F038}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsyscoin_util", "libsyscoin_util\libsyscoin_util.vcxproj", "{B53A5535-EE9D-4C6F-9A26-F79EE3BC3754}"
 EndProject
@@ -18,7 +18,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsyscoin_server", "libsys
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libunivalue", "libunivalue\libunivalue.vcxproj", "{5724BA7D-A09A-4BA8-800B-C4C1561B3D69}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsyscoin_wallet", "libsyscoin_wallet\libsyscoin_wallet.vcxproj", "{93B86837-B543-48A5-A89B-7C87ABB77DF2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvircles_wallet", "libvircles_wallet\libvircles_wallet.vcxproj", "{93B86837-B543-48A5-A89B-7C87ABB77DF2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsyscoin_zmq", "libsyscoin_zmq\libsyscoin_zmq.vcxproj", "{792D487F-F14C-49FC-A9DE-3FC150F31C3F}"
 EndProject
@@ -30,23 +30,23 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vircles-cli", "vircles-cli\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bench_syscoin", "bench_syscoin\bench_syscoin.vcxproj", "{1125654E-E1B2-4431-8B5C-62EA9A2FEECB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "syscoin-tx", "syscoin-tx\syscoin-tx.vcxproj", "{D3022AF6-AD33-4CE3-B358-87CB6A1B29CF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vircles-tx", "vircles-tx\vircles-tx.vcxproj", "{D3022AF6-AD33-4CE3-B358-87CB6A1B29CF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "syscoin-wallet", "syscoin-wallet\syscoin-wallet.vcxproj", "{84DE8790-EDE3-4483-81AC-C32F15E861F4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vircles-wallet", "vircles-wallet\vircles-wallet.vcxproj", "{84DE8790-EDE3-4483-81AC-C32F15E861F4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsyscoin_wallet_tool", "libsyscoin_wallet_tool\libsyscoin_wallet_tool.vcxproj", "{F91AC55E-6F5E-4C58-9AC5-B40DB7DEEF93}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvircles_wallet_tool", "libvircles_wallet_tool\libvircles_wallet_tool.vcxproj", "{F91AC55E-6F5E-4C58-9AC5-B40DB7DEEF93}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsecp256k1", "libsecp256k1\libsecp256k1.vcxproj", "{BB493552-3B8C-4A8C-BF69-A6E7A51D2EA6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libleveldb", "libleveldb\libleveldb.vcxproj", "{18430FEF-6B61-4C53-B396-718E02850F1B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsyscoin_qt", "libsyscoin_qt\libsyscoin_qt.vcxproj", "{2B4ABFF8-D1FD-4845-88C9-1F3C0A6512BF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libvircles_qt", "libvircles_qt\libvircles_qt.vcxproj", "{2B4ABFF8-D1FD-4845-88C9-1F3C0A6512BF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "syscoin-qt", "syscoin-qt\syscoin-qt.vcxproj", "{7E99172D-7FF2-4CB6-B736-AC9B76ED412A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vircles-qt", "vircles-qt\vircles-qt.vcxproj", "{7E99172D-7FF2-4CB6-B736-AC9B76ED412A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtest_util", "libtest_util\libtest_util.vcxproj", "{868474FD-35F6-4400-8EED-30A33E7521D4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_syscoin-qt", "test_syscoin-qt\test_syscoin-qt.vcxproj", "{51201D5E-D939-4854-AE9D-008F03FF518E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_vircles-qt", "test_vircles-qt\test_vircles-qt.vcxproj", "{51201D5E-D939-4854-AE9D-008F03FF518E}"
 EndProject
 Global
     GlobalSection(SolutionConfigurationPlatforms) = preSolution

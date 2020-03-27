@@ -2,9 +2,9 @@
 
 export LC_ALL=C
 KNOWN_VIOLATIONS=(
-    "src/syscoin-tx.cpp.*stoul"
-    "src/syscoin-tx.cpp.*std::to_string"
-    "src/syscoin-tx.cpp.*trim_right"
+    "src/vircles-tx.cpp.*stoul"
+    "src/vircles-tx.cpp.*std::to_string"
+    "src/vircles-tx.cpp.*trim_right"
     "src/dbwrapper.cpp.*stoul"
     "src/dbwrapper.cpp:.*vsnprintf"
     "src/httprpc.cpp.*trim"

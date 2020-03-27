@@ -29,16 +29,16 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>Syscoin-Qt</string>
+  <string>Vircles-Qt</string>
   
   <key>CFBundleName</key>
-  <string>Syscoin-Qt</string>
+  <string>Vircles-Qt</string>
 
   <key>LSHasLocalizedDisplayName</key>
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>org.syscoinfoundation.Syscoin-Qt</string>
+  <string>org.syscoinfoundation.Vircles-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>

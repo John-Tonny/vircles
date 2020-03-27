@@ -130,7 +130,7 @@ static const char* FEE_ESTIMATES_FILENAME="fee_estimates.dat";
 /**
  * The PID file facilities.
  */
-static const char* SYSCOIN_PID_FILENAME = "syscoind.pid";
+static const char* SYSCOIN_PID_FILENAME = "virclesd.pid";
 
 static fs::path GetPidFile()
 {
@@ -148,10 +148,10 @@ NODISCARD static bool CreatePidFile()
             if(pidFile && pidFile != getpid()){
                 try{
                     KillProcess(pidFile);
-                    LogPrintf("%s: Syscoind successfully exited from pid %d(from syscoind.pid)\n", __func__, pidFile);
+                    LogPrintf("%s: Syscoind successfully exited from pid %d(from virclesd.pid)\n", __func__, pidFile);
                 }
                 catch(...){
-                    LogPrintf("%s: Syscoind failed to exit from pid %d(from syscoind.pid)\n", __func__, pidFile);
+                    LogPrintf("%s: Syscoind failed to exit from pid %d(from virclesd.pid)\n", __func__, pidFile);
                 }
             } 
         } 
@@ -1943,7 +1943,7 @@ bool AppInitMain(NodeContext& node)
         }
         std::array<char, 128> buffer;
         std::string result;
-        std::unique_ptr<FILE, decltype(&pclose)> pipe(popen("pidof syscoind | wc -w", "r"), pclose);
+        std::unique_ptr<FILE, decltype(&pclose)> pipe(popen("pidof virclesd | wc -w", "r"), pclose);
         if (!pipe) {
            return InitError("popen() failed!");
         }
@@ -1956,7 +1956,7 @@ bool AppInitMain(NodeContext& node)
             return InitError("Could not parse result from pidof");
 
         if(resultInt != 1)   
-            return InitError(_("Ensure you are running this masternode in a Unix OS and that only on syscoind is running...").translated); 
+            return InitError(_("Ensure you are running this masternode in a Unix OS and that only on virclesd is running...").translated); 
                          
         std::string strMasterNodePrivKey = gArgs.GetArg("-masternodeprivkey", "");
         if(!strMasterNodePrivKey.empty()) {

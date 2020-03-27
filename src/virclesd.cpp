@@ -70,7 +70,7 @@ static bool AppInit(int argc, char* argv[])
         }
         else
         {
-            strUsage += "\nUsage:  syscoind [options]                     Start " PACKAGE_NAME "\n";
+            strUsage += "\nUsage:  virclesd [options]                     Start " PACKAGE_NAME "\n";
             strUsage += "\n" + gArgs.GetHelpMessage();
         }
 
@@ -96,7 +96,7 @@ static bool AppInit(int argc, char* argv[])
         // Error out when loose non-argument tokens are encountered on command line
         for (int i = 1; i < argc; i++) {
             if (!IsSwitchChar(argv[i][0])) {
-                return InitError(strprintf("Command line contains unexpected token '%s', see syscoind -h for a list of options.\n", argv[i]));
+                return InitError(strprintf("Command line contains unexpected token '%s', see virclesd -h for a list of options.\n", argv[i]));
             }
         }
         // SYSCOIN parse masternode.conf
@@ -105,7 +105,7 @@ static bool AppInit(int argc, char* argv[])
             tfm::format(std::cerr,"Error reading masternode configuration file: %s\n", strErr.c_str());
             return false;
         }
-        // -server defaults to true for syscoind but not for the GUI so do this here
+        // -server defaults to true for virclesd but not for the GUI so do this here
         gArgs.SoftSetBoolArg("-server", true);
         // Set this early so that parameter interactions go to console
         InitLogging();
@@ -179,7 +179,7 @@ int main(int argc, char* argv[])
 #endif
     SetupEnvironment();
 
-    // Connect syscoind signal handlers
+    // Connect virclesd signal handlers
     noui_connect();
 
     return (AppInit(argc, argv) ? EXIT_SUCCESS : EXIT_FAILURE);

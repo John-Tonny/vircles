@@ -35,7 +35,7 @@ namespace interfaces {
 class Handler;
 class Wallet;
 
-//! Top-level interface for a syscoin node (syscoind process).
+//! Top-level interface for a syscoin node (virclesd process).
 class Node
 {
 public:
