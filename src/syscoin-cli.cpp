@@ -112,10 +112,10 @@ static int AppInitRPC(int argc, char* argv[])
         std::string strUsage = PACKAGE_NAME " RPC client version " + FormatFullVersion() + "\n";
         if (!gArgs.IsArgSet("-version")) {
             strUsage += "\n"
-                "Usage:  syscoin-cli [options] <command> [params]  Send command to " PACKAGE_NAME "\n"
-                "or:     syscoin-cli [options] -named <command> [name=value]...  Send command to " PACKAGE_NAME " (with named arguments)\n"
-                "or:     syscoin-cli [options] help                List commands\n"
-                "or:     syscoin-cli [options] help <command>      Get help for a command\n";
+                "Usage:  vircles-cli [options] <command> [params]  Send command to " PACKAGE_NAME "\n"
+                "or:     vircles-cli [options] -named <command> [name=value]...  Send command to " PACKAGE_NAME " (with named arguments)\n"
+                "or:     vircles-cli [options] help                List commands\n"
+                "or:     vircles-cli [options] help <command>      Get help for a command\n";
             strUsage += "\n" + gArgs.GetHelpMessage();
         }
 
@@ -507,7 +507,7 @@ static int CommandLineRPC(int argc, char *argv[])
                             strPrint += "error message:\n"+errMsg.get_str();
 
                         if (errCode.isNum() && errCode.get_int() == RPC_WALLET_NOT_SPECIFIED) {
-                            strPrint += "\nTry adding \"-rpcwallet=<filename>\" option to syscoin-cli command line.";
+                            strPrint += "\nTry adding \"-rpcwallet=<filename>\" option to vircles-cli command line.";
                         }
                     }
                 } else {

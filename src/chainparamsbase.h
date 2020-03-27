@@ -9,7 +9,7 @@
 #include <string>
 
 /**
- * CBaseChainParams defines the base parameters (shared between syscoin-cli and syscoind)
+ * CBaseChainParams defines the base parameters (shared between vircles-cli and syscoind)
  * of a given instance of the Syscoin system.
  */
 class CBaseChainParams

@@ -88,7 +88,7 @@ if BUILD_SYSCOIND
 endif
 
 if BUILD_SYSCOIN_CLI
-  bin_PROGRAMS += syscoin-cli
+  bin_PROGRAMS += vircles-cli
 endif
 if BUILD_SYSCOIN_TX
   bin_PROGRAMS += syscoin-tx
@@ -630,7 +630,7 @@ libsyscoin_util_a_SOURCES += compat/glibc_compat.cpp
 AM_LDFLAGS += $(COMPAT_LDFLAGS)
 endif
 
-# cli: shared between syscoin-cli and syscoin-qt
+# cli: shared between vircles-cli and syscoin-qt
 libsyscoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES)
 libsyscoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libsyscoin_cli_a_SOURCES = \
@@ -671,14 +671,14 @@ syscoind_LDADD = \
 
 syscoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS)
 
-# syscoin-cli binary #
-syscoin_cli_SOURCES = syscoin-cli.cpp
+# vircles-cli binary #
+syscoin_cli_SOURCES = vircles-cli.cpp
 syscoin_cli_CPPFLAGS = $(AM_CPPFLAGS) $(SYSCOIN_INCLUDES) $(EVENT_CFLAGS)
 syscoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 syscoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-syscoin_cli_SOURCES += syscoin-cli-res.rc
+syscoin_cli_SOURCES += vircles-cli-res.rc
 endif
 
 syscoin_cli_LDADD = \

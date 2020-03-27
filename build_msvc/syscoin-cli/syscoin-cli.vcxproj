@@ -9,7 +9,7 @@
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\syscoin-cli.cpp" />
+    <ClCompile Include="..\..\src\vircles-cli.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libsyscoin_cli\libsyscoin_cli.vcxproj">

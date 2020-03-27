@@ -8,7 +8,7 @@ BINDIR=${BINDIR:-$BUILDDIR/src}
 MANDIR=${MANDIR:-$TOPDIR/doc/man}
 
 SYSCOIND=${SYSCOIND:-$BINDIR/syscoind}
-SYSCOINCLI=${SYSCOINCLI:-$BINDIR/syscoin-cli}
+SYSCOINCLI=${SYSCOINCLI:-$BINDIR/vircles-cli}
 SYSCOINTX=${SYSCOINTX:-$BINDIR/syscoin-tx}
 WALLET_TOOL=${WALLET_TOOL:-$BINDIR/syscoin-wallet}
 SYSCOINQT=${SYSCOINQT:-$BINDIR/qt/syscoin-qt}
@@ -20,7 +20,7 @@ read -r -a SYSVER <<< "$($SYSCOINCLI --version | head -n1 | awk -F'[ -]' '{ prin
 
 # Create a footer file with copyright content.
 # This gets autodetected fine for syscoind if --version-string is not set,
-# but has different outcomes for syscoin-qt and syscoin-cli.
+# but has different outcomes for syscoin-qt and vircles-cli.
 echo "[COPYRIGHT]" > footer.h2m
 $SYSCOIND --version | sed -n '1!p' >> footer.h2m
 

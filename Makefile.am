@@ -47,7 +47,7 @@ DIST_DOCS = \
   README.md \
   $(wildcard doc/*.md) \
   $(wildcard doc/release-notes/*.md)
-DIST_CONTRIB = $(top_srcdir)/contrib/syscoin-cli.bash-completion \
+DIST_CONTRIB = $(top_srcdir)/contrib/vircles-cli.bash-completion \
 	       $(top_srcdir)/contrib/syscoin-tx.bash-completion \
 	       $(top_srcdir)/contrib/syscoind.bash-completion \
 	       $(top_srcdir)/contrib/debian/copyright \

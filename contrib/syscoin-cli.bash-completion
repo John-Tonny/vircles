@@ -1,9 +1,9 @@
-# bash programmable completion for syscoin-cli(1)
+# bash programmable completion for vircles-cli(1)
 # Copyright (c) 2012-2019 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-# call $syscoin-cli for RPC
+# call $vircles-cli for RPC
 _syscoin_rpc() {
     # determine already specified args necessary for RPC
     local rpcargs=()
@@ -21,8 +21,8 @@ _syscoin_cli() {
     local cur prev words=() cword
     local syscoin_cli
 
-    # save and use original argument to invoke syscoin-cli for -help, help and RPC
-    # as syscoin-cli might not be in $PATH
+    # save and use original argument to invoke vircles-cli for -help, help and RPC
+    # as vircles-cli might not be in $PATH
     syscoin_cli="$1"
 
     COMPREPLY=()
@@ -130,7 +130,7 @@ _syscoin_cli() {
             ;;
     esac
 } &&
-complete -F _syscoin_cli syscoin-cli
+complete -F _syscoin_cli vircles-cli
 
 # Local variables:
 # mode: shell-script

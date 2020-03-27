@@ -9,7 +9,7 @@ if ENABLE_QT
 endif
 
 if BUILD_SYSCOIN_CLI
-  dist_man1_MANS+=syscoin-cli.1
+  dist_man1_MANS+=vircles-cli.1
 endif
 
 if BUILD_SYSCOIN_TX

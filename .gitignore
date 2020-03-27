@@ -4,7 +4,7 @@
 *.pdb
 src/syscoin
 src/syscoind
-src/syscoin-cli
+src/vircles-cli
 src/syscoin-tx
 src/syscoin-wallet
 src/test/fuzz

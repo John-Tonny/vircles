@@ -16,7 +16,7 @@ AC_CONFIG_MACRO_DIR([build-aux/m4])
 
 SYSCOIN_DAEMON_NAME=syscoind
 SYSCOIN_GUI_NAME=syscoin-qt
-SYSCOIN_CLI_NAME=syscoin-cli
+SYSCOIN_CLI_NAME=vircles-cli
 SYSCOIN_TX_NAME=syscoin-tx
 SYSCOIN_WALLET_TOOL_NAME=syscoin-wallet
 
@@ -442,13 +442,13 @@ CPPFLAGS="$CPPFLAGS -DHAVE_BUILD_INFO -D__STDC_FORMAT_MACROS"
 
 AC_ARG_WITH([utils],
   [AS_HELP_STRING([--with-utils],
-  [build syscoin-cli syscoin-tx syscoin-wallet (default=yes)])],
+  [build vircles-cli syscoin-tx syscoin-wallet (default=yes)])],
   [build_syscoin_utils=$withval],
   [build_syscoin_utils=yes])
 
 AC_ARG_ENABLE([util-cli],
   [AS_HELP_STRING([--enable-util-cli],
-  [build syscoin-cli])],
+  [build vircles-cli])],
   [build_syscoin_cli=$enableval],
   [build_syscoin_cli=$build_syscoin_utils])
 
@@ -1376,7 +1376,7 @@ AC_MSG_CHECKING([whether to build syscoind])
 AM_CONDITIONAL([BUILD_SYSCOIND], [test x$build_syscoind = xyes])
 AC_MSG_RESULT($build_syscoind)
 
-AC_MSG_CHECKING([whether to build syscoin-cli])
+AC_MSG_CHECKING([whether to build vircles-cli])
 AM_CONDITIONAL([BUILD_SYSCOIN_CLI], [test x$build_syscoin_cli = xyes])
 AC_MSG_RESULT($build_syscoin_cli)
 
