@@ -633,7 +633,7 @@ fs::path GetDefaultDataDir()
     // Windows < Vista: C:\Documents and Settings\Username\Application Data\Syscoin
     // Windows >= Vista: C:\Users\Username\AppData\Roaming\Syscoin
     // Mac: ~/Library/Application Support/Syscoin
-    // Unix: ~/.syscoin
+    // Unix: ~/.vircles
 #ifdef WIN32
     // Windows
     return GetSpecialFolderPath(CSIDL_APPDATA) / "Syscoin";
@@ -649,7 +649,7 @@ fs::path GetDefaultDataDir()
     return pathRet / "Library/Application Support/Syscoin";
 #else
     // Unix
-    return pathRet / ".syscoin";
+    return pathRet / ".vircles";
 #endif
 #endif
 }

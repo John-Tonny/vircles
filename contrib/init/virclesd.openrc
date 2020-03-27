@@ -2,8 +2,8 @@
 
 # backward compatibility for existing gentoo layout 
 #
-if [ -d "/var/lib/syscoin/.syscoin" ]; then
-	SYSCOIND_DEFAULT_DATADIR="/var/lib/syscoin/.syscoin"
+if [ -d "/var/lib/syscoin/.vircles" ]; then
+	SYSCOIND_DEFAULT_DATADIR="/var/lib/syscoin/.vircles"
 else
 	SYSCOIND_DEFAULT_DATADIR="/var/lib/virclesd"
 fi
