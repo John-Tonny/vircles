@@ -1,7 +1,7 @@
 # /etc/conf.d/virclesd: config file for /etc/init.d/virclesd
 
 # Config file location
-#SYSCOIND_CONFIGFILE="/etc/syscoin/syscoin.conf"
+#SYSCOIND_CONFIGFILE="/etc/syscoin/vircles.conf"
 
 # What directory to write pidfile to?  (created and owned by $SYSCOIND_USER)
 #SYSCOIND_PIDDIR="/var/run/virclesd"

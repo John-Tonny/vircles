@@ -98,7 +98,7 @@ std::vector<JSONRPCRequest> vecTPSRawTransactions;
 // Application startup time (used for uptime calculation)
 const int64_t nStartupTime = GetTime();
 
-const char * const SYSCOIN_CONF_FILENAME = "syscoin.conf";
+const char * const SYSCOIN_CONF_FILENAME = "vircles.conf";
 
 ArgsManager gArgs;
 // SYSCOIN

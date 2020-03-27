@@ -400,7 +400,7 @@ bool openSyscoinConf()
 
     configFile.close();
 
-    /* Open syscoin.conf with the associated application */
+    /* Open vircles.conf with the associated application */
     bool res = QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
 #ifdef Q_OS_MAC
     // Workaround for macOS-specific behavior; see #15409.

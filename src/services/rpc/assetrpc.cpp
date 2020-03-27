@@ -204,7 +204,7 @@ UniValue tpstestinfo(const JSONRPCRequest& request) {
 		throw runtime_error("tpstestinfo\n"
 			"Gets TPS Test information for receivers of assetallocation transfers\n");
 	if(!fTPSTest)
-		throw JSONRPCError(RPC_MISC_ERROR, "This function requires tpstest configuration to be set upon startup. Please shutdown and enable it by adding it to your syscoin.conf file and then call 'tpstestsetenabled true'.");
+		throw JSONRPCError(RPC_MISC_ERROR, "This function requires tpstest configuration to be set upon startup. Please shutdown and enable it by adding it to your vircles.conf file and then call 'tpstestsetenabled true'.");
 	
 	UniValue oTPSTestResults(UniValue::VOBJ);
 	UniValue oTPSTestReceivers(UniValue::VARR);
@@ -231,7 +231,7 @@ UniValue tpstestsetenabled(const JSONRPCRequest& request) {
 			"\nExample:\n"
 			+ HelpExampleCli("tpstestsetenabled", "true"));
 	if(!fTPSTest)
-		throw JSONRPCError(RPC_MISC_ERROR, "This function requires tpstest configuration to be set upon startup. Please shutdown and enable it by adding it to your syscoin.conf file and then try again.");
+		throw JSONRPCError(RPC_MISC_ERROR, "This function requires tpstest configuration to be set upon startup. Please shutdown and enable it by adding it to your vircles.conf file and then try again.");
 	fTPSTestEnabled = params[0].get_bool();
 	if (!fTPSTestEnabled) {
 		vecTPSTestReceivedTimesMempool.clear();
@@ -267,7 +267,7 @@ UniValue tpstestadd(const JSONRPCRequest& request) {
 			"\nExample:\n"
 			+ HelpExampleCli("tpstestadd", "\"223233433839384\" \"[{\\\"tx\\\":\\\"first raw hex tx\\\"},{\\\"tx\\\":\\\"second raw hex tx\\\"}]\""));
 	if (!fTPSTest)
-		throw JSONRPCError(RPC_MISC_ERROR, "This function requires tpstest configuration to be set upon startup. Please shutdown and enable it by adding it to your syscoin.conf file and then call 'tpstestsetenabled true'.");
+		throw JSONRPCError(RPC_MISC_ERROR, "This function requires tpstest configuration to be set upon startup. Please shutdown and enable it by adding it to your vircles.conf file and then call 'tpstestsetenabled true'.");
 
 	nTPSTestingStartTime = params[0].get_int64();
 	UniValue txs;

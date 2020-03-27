@@ -68,7 +68,7 @@ UniValue gobject(const JSONRPCRequest& request)
                 "  list               - List governance objects (can be filtered by signal and/or object type)\n"
                 "  diff               - List differences since last diff\n"
                 "  vote-name         - Vote on a governance object by masternode name (using masternode.conf setup)\n"
-                "  vote-conf          - Vote on a governance object by masternode configured in syscoin.conf\n"
+                "  vote-conf          - Vote on a governance object by masternode configured in vircles.conf\n"
                 "  vote-many          - Vote on a governance object by all masternodes (using masternode.conf setup)\n",
                     {
                         {"command", RPCArg::Type::STR, RPCArg::Optional::NO, "command to call (check|prepare|submit|deserialize|count|get|getvotes|getcurrentvotes|list|diff|vote-name|vote-conf|vote-many)"}
@@ -381,7 +381,7 @@ UniValue gobject(const JSONRPCRequest& request)
             nFailed++;
             statusObj.pushKV("result", "failed");
             statusObj.pushKV("errorMessage", "Can't find masternode by collateral output");
-            resultsObj.pushKV("syscoin.conf", statusObj);
+            resultsObj.pushKV("vircles.conf", statusObj);
             returnObj.pushKV("overall", strprintf("Voted successfully %d time(s) and failed %d time(s).", nSuccessful, nFailed));
             returnObj.pushKV("detail", resultsObj);
             return returnObj;
@@ -392,7 +392,7 @@ UniValue gobject(const JSONRPCRequest& request)
             nFailed++;
             statusObj.pushKV("result", "failed");
             statusObj.pushKV("errorMessage", "Failure to sign.");
-            resultsObj.pushKV("syscoin.conf", statusObj);
+            resultsObj.pushKV("vircles.conf", statusObj);
             returnObj.pushKV("overall", strprintf("Voted successfully %d time(s) and failed %d time(s).", nSuccessful, nFailed));
             returnObj.pushKV("detail", resultsObj);
             return returnObj;
@@ -409,7 +409,7 @@ UniValue gobject(const JSONRPCRequest& request)
             statusObj.pushKV("errorMessage", exception.GetMessage());
         }
 
-        resultsObj.pushKV("syscoin.conf", statusObj);
+        resultsObj.pushKV("vircles.conf", statusObj);
 
         returnObj.pushKV("overall", strprintf("Voted successfully %d time(s) and failed %d time(s).", nSuccessful, nFailed));
         returnObj.pushKV("detail", resultsObj);
