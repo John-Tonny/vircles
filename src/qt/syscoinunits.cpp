@@ -42,7 +42,7 @@ QString SyscoinUnits::longName(int unit)
     {
     case VCL: return QString("VCL");
     case mVCL: return QString("mVCL");
-    case uVCL: return QString::fromUtf8("µSYS (bits)");
+    case uVCL: return QString::fromUtf8("µVCL (bits)");
     case SAT: return QString("Satoshi (sat)");
     default: return QString("???");
     }
