@@ -1036,6 +1036,9 @@ bool StopGethNode(pid_t &pid)
     return true;
 }
 bool CheckSpecs(std::string &errMsg, bool bMiner){
+    // add by luke
+    return true;    //Server hardware configuration is not detected
+    
     meminfo_t memInfo = parse_meminfo();
     LogPrintf("Total Memory(MB) %d (Total Free %d) Swap Total(MB) %d (Total Free %d)\n", memInfo.MemTotalMiB, memInfo.MemAvailableMiB, memInfo.SwapTotalMiB, memInfo.SwapFreeMiB);
     if(memInfo.MemTotalMiB < (bMiner? 8000: 3800))

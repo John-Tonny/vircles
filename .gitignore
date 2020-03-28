@@ -151,6 +151,7 @@ dist/
 *.background.tiff
 
 # add new luke
+.vscode/
 libvirclesconsensus.pc
 src/bench/bench_vircles
 src/config/vircles-config.h
