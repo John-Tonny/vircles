@@ -22,7 +22,7 @@ public:
 class CScriptNum10
 {
 /**
- * The ScriptNum implementation from Syscoin Core 0.10.0, for cross-comparison.
+ * The ScriptNum implementation from Vircles Core 0.10.0, for cross-comparison.
  */
 public:
 

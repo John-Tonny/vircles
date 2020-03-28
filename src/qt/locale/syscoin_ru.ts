@@ -888,7 +888,7 @@
     </message>
     <message>
         <source>Syscoin</source>
-        <translation>Syscoin Core</translation>
+        <translation>Vircles Core</translation>
     </message>
     <message>
         <source>At least %1 GB of data will be stored in this directory, and it will grow over time.</source>

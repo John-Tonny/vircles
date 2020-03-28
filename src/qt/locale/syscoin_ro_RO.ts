@@ -3172,7 +3172,7 @@ Nota: Cum taxa este calculata per byte, o taxa de "100 satoshi per kB" pentru o 
         <translation>Imposibil de pornit serverul HTTP. Pentru detalii vezi logul de depanare.</translation>
     </message>
     <message>
-        <source>Syscoin Core</source>
+        <source>Vircles Core</source>
         <translation>Nucleul Syscoin</translation>
     </message>
     <message>

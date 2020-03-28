@@ -1450,7 +1450,7 @@
     </message>
     <message>
         <source>Cannot process payment request because BIP70 support was not compiled in.</source>
-        <translation>Zahteve za plačilo ni mogoče obdelati, ker podpora za BIP70 ni bila sestavljena v Syscoin Core.</translation>
+        <translation>Zahteve za plačilo ni mogoče obdelati, ker podpora za BIP70 ni bila sestavljena v Vircles Core.</translation>
     </message>
     <message>
         <source>Invalid payment address %1</source>

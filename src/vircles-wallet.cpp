@@ -41,7 +41,7 @@ static bool WalletAppInit(int argc, char* argv[])
     }
     if (argc < 2 || HelpRequested(gArgs)) {
         std::string usage = strprintf("%s vircles-wallet version", PACKAGE_NAME) + " " + FormatFullVersion() + "\n\n" +
-                                      "vircles-wallet is an offline tool for creating and interacting with Syscoin Core wallet files.\n" +
+                                      "vircles-wallet is an offline tool for creating and interacting with Vircles Core wallet files.\n" +
                                       "By default vircles-wallet will act on wallets in the default mainnet wallet directory in the datadir.\n" +
                                       "To change the target wallet, use the -datadir, -wallet and -testnet/-regtest arguments.\n\n" +
                                       "Usage:\n" +

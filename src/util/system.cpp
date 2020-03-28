@@ -1780,9 +1780,9 @@ std::string CopyrightHolders(const std::string& strPrefix)
     const auto copyright_devs = strprintf(_(COPYRIGHT_HOLDERS).translated, COPYRIGHT_HOLDERS_SUBSTITUTION);
     std::string strCopyrightHolders = strPrefix + copyright_devs;
 
-    // Make sure Syscoin Core copyright is not removed by accident
-    if (copyright_devs.find("Syscoin Core") == std::string::npos) {
-        strCopyrightHolders += "\n" + strPrefix + "The Syscoin Core developers";
+    // Make sure Vircles Core copyright is not removed by accident
+    if (copyright_devs.find("Vircles Core") == std::string::npos) {
+        strCopyrightHolders += "\n" + strPrefix + "The Vircles Core developers";
     }
     return strCopyrightHolders;
 }

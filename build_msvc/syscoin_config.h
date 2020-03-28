@@ -23,10 +23,10 @@
 #define COPYRIGHT_HOLDERS "The %s developers"
 
 /* Copyright holder(s) */
-#define COPYRIGHT_HOLDERS_FINAL "The Syscoin Core developers"
+#define COPYRIGHT_HOLDERS_FINAL "The Vircles Core developers"
 
 /* Replacement for %s in copyright holders string */
-#define COPYRIGHT_HOLDERS_SUBSTITUTION "Syscoin Core"
+#define COPYRIGHT_HOLDERS_SUBSTITUTION "Vircles Core"
 
 /* Copyright year */
 #define COPYRIGHT_YEAR 2019
@@ -339,10 +339,10 @@
 #define PACKAGE_BUGREPORT "https://github.com/syscoin/syscoin/issues"
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "Syscoin Core"
+#define PACKAGE_NAME "Vircles Core"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "Syscoin Core 4.1.0"
+#define PACKAGE_STRING "Vircles Core 4.1.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "syscoin"

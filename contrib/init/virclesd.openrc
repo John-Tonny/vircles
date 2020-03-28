@@ -18,7 +18,7 @@ SYSCOIND_BIN=${SYSCOIND_BIN:-/usr/bin/virclesd}
 SYSCOIND_NICE=${SYSCOIND_NICE:-${NICELEVEL:-0}}
 SYSCOIND_OPTS="${SYSCOIND_OPTS:-${SYSCOIN_OPTS}}"
 
-name="Syscoin Core Daemon"
+name="Vircles Core Daemon"
 description="Syscoin cryptocurrency P2P network daemon"
 
 command="/usr/bin/virclesd"

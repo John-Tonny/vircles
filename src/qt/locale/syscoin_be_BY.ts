@@ -1226,8 +1226,8 @@
 <context>
     <name>syscoin-core</name>
     <message>
-        <source>Syscoin Core</source>
-        <translation>Syscoin Core</translation>
+        <source>Vircles Core</source>
+        <translation>Vircles Core</translation>
     </message>
     <message>
         <source>Do you want to rebuild the block database now?</source>

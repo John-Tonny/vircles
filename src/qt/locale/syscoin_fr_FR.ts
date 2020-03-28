@@ -2234,8 +2234,8 @@
         <translation>Impossible de démarrer le serveur HTTP. Voir le journal de débogage pour plus de détails.</translation>
     </message>
     <message>
-        <source>Syscoin Core</source>
-        <translation>Syscoin Core</translation>
+        <source>Vircles Core</source>
+        <translation>Vircles Core</translation>
     </message>
     <message>
         <source>Importing...</source>

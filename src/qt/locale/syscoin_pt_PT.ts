@@ -3110,8 +3110,8 @@
         <translation>Não é possível iniciar o servidor HTTP. Verifique o debug.log para detalhes.</translation>
     </message>
     <message>
-        <source>Syscoin Core</source>
-        <translation>Syscoin Core</translation>
+        <source>Vircles Core</source>
+        <translation>Vircles Core</translation>
     </message>
     <message>
         <source>The %s developers</source>
