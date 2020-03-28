@@ -217,7 +217,7 @@ UniValue syscointxfund(CWallet* const pwallet, const JSONRPCRequest& request) {
             if(std::find(savedtxins.begin(), savedtxins.end(), vin) == savedtxins.end())
                 savedtxins.emplace_back(vin);
             else{
-                LogPrint(BCLog::SYS, "Skipping saved output in syscointxfund...\n");
+                LogPrint(BCLog::VCL, "Skipping saved output in syscointxfund...\n");
                 continue;
             }
         }
@@ -302,7 +302,7 @@ UniValue syscointxfund(CWallet* const pwallet, const JSONRPCRequest& request) {
                 if(std::find(savedtxins.begin(), savedtxins.end(), txIn) == savedtxins.end())
                     savedtxins.emplace_back(txIn);
                 else{
-                    LogPrint(BCLog::SYS, "Skipping saved output in syscointxfund...\n");
+                    LogPrint(BCLog::VCL, "Skipping saved output in syscointxfund...\n");
                     continue;
                 }
             }
@@ -329,7 +329,7 @@ UniValue syscointxfund(CWallet* const pwallet, const JSONRPCRequest& request) {
   
     const CAmount &nChange = nCurrentAmount - nDesiredAmount - nFees;
     if (nChange < 0)
-        throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Insufficient funds, short by: " + ValueFromAmount(-1*nChange).write() + " SYS");
+        throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Insufficient funds, short by: " + ValueFromAmount(-1*nChange).write() + " VCL");
         
     // change back to funding address
     const CTxDestination & dest = DecodeDestination(strAddress);
@@ -352,9 +352,9 @@ UniValue syscoinburntoassetallocation(const JSONRPCRequest& request) {
     RPCHelpMan{"syscoinburntoassetallocation",
         "\nBurns Syscoin to the SYSX asset\n",
         {
-            {"funding_address", RPCArg::Type::STR, RPCArg::Optional::NO, "Funding address to burn SYS from"},
+            {"funding_address", RPCArg::Type::STR, RPCArg::Optional::NO, "Funding address to burn VCL from"},
             {"asset_guid", RPCArg::Type::NUM, RPCArg::Optional::NO, "Asset guid of SYSX"},
-            {"amount", RPCArg::Type::AMOUNT, RPCArg::Optional::NO, "Amount of SYS to burn."},
+            {"amount", RPCArg::Type::AMOUNT, RPCArg::Optional::NO, "Amount of VCL to burn."},
         },
         RPCResult{
             "{\n"
@@ -504,7 +504,7 @@ UniValue assetnew(const JSONRPCRequest& request) {
     CRecipient fee;
     CreateFeeRecipient(scriptData, fee);
     if(!fUnitTest && ::ChainActive().Tip()->nHeight >= Params().GetConsensus().nBridgeStartBlock){
-        // 500 SYS fee for new asset
+        // 500 VCL fee for new asset
         fee.nAmount += 500*COIN;
     }
     vecSend.push_back(fee);
@@ -1043,7 +1043,7 @@ UniValue assetallocationmint(const JSONRPCRequest& request) {
         {
             {"asset_guid", RPCArg::Type::NUM, RPCArg::Optional::NO, "Asset guid"},
             {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "Mint to this address."},
-            {"amount", RPCArg::Type::AMOUNT, RPCArg::Optional::NO, "Amount of asset to mint.  Note that fees (in SYS) will be taken from the owner address"},
+            {"amount", RPCArg::Type::AMOUNT, RPCArg::Optional::NO, "Amount of asset to mint.  Note that fees (in VCL) will be taken from the owner address"},
             {"blocknumber", RPCArg::Type::NUM, RPCArg::Optional::NO, "Block number of the block that included the burn transaction on Ethereum."},
             {"tx_hex", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "Transaction hex."},
             {"txroot_hex", RPCArg::Type::STR_HEX, RPCArg::Optional::NO, "The transaction merkle root that commits this transaction to the block header."},

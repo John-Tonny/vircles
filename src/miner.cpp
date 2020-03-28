@@ -329,7 +329,7 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
         ResyncAssetAllocationStates();
 
     if(bFoundError){
-        LogPrint(BCLog::SYS, "CreateNewBlock: CheckSyscoinInputs failed: %s. vecToRemoveFromMempool size %d. Removed %d transactions and trying again...\n", FormatStateMessage(tx_state), vecToRemoveFromMempool.size(), txsToRemove.size());
+        LogPrint(BCLog::VCL, "CreateNewBlock: CheckSyscoinInputs failed: %s. vecToRemoveFromMempool size %d. Removed %d transactions and trying again...\n", FormatStateMessage(tx_state), vecToRemoveFromMempool.size(), txsToRemove.size());
         return CreateNewBlock(scriptPubKeyIn, txsToRemove);
     }
     LogPrintf("CreateNewBlock(): block weight: %u txs: %u fees: %ld sigops %d\n", GetBlockWeight(*pblock), nBlockTx, nFees, nBlockSigOpsCost);

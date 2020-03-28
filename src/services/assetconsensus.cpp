@@ -394,7 +394,7 @@ void ResyncAssetAllocationStates(){
 
     }   
     if(count > 0)
-        LogPrint(BCLog::SYS,"ResyncAssetAllocationStates removed %d expired asset allocation transactions from mempool balances\n", count);
+        LogPrint(BCLog::VCL,"ResyncAssetAllocationStates removed %d expired asset allocation transactions from mempool balances\n", count);
 
 }
 int ResetAssetAllocations(const ActorSet &actorSet) {
@@ -464,7 +464,7 @@ bool DisconnectMintAsset(const CTransaction &tx, const uint256& txHash, AssetAll
     CMintSyscoin mintSyscoin(tx);
     if(mintSyscoin.IsNull())
     {
-        LogPrint(BCLog::SYS,"DisconnectMintAsset: Cannot unserialize data inside of this transaction relating to an assetallocationmint\n");
+        LogPrint(BCLog::VCL,"DisconnectMintAsset: Cannot unserialize data inside of this transaction relating to an assetallocationmint\n");
         return false;
     }
     // remove eth spend tx from our internal db
@@ -520,7 +520,7 @@ bool DisconnectMintAsset(const CTransaction &tx, const uint256& txHash, AssetAll
     storedSenderAllocationRef.nBalance += mintSyscoin.nValueAsset;
     storedReceiverAllocationRef.nBalance -= mintSyscoin.nValueAsset;
     if(storedReceiverAllocationRef.nBalance < 0) {
-        LogPrint(BCLog::SYS,"DisconnectMintAsset: Receiver balance of %s is negative: %lld\n",mintSyscoin.assetAllocationTuple.ToString(), storedReceiverAllocationRef.nBalance);
+        LogPrint(BCLog::VCL,"DisconnectMintAsset: Receiver balance of %s is negative: %lld\n",mintSyscoin.assetAllocationTuple.ToString(), storedReceiverAllocationRef.nBalance);
         return false;
     }       
     else if(storedReceiverAllocationRef.nBalance == 0){
@@ -531,18 +531,18 @@ bool DisconnectMintAsset(const CTransaction &tx, const uint256& txHash, AssetAll
         if(fAssetIndexGuids.empty() || std::find(fAssetIndexGuids.begin(), fAssetIndexGuids.end(), mintSyscoin.assetAllocationTuple.nAsset) != fAssetIndexGuids.end()){
             if(passetindexdb->Exists(std::make_pair(false, mintSyscoin.assetAllocationTuple.nAsset))){
                 if(!passetindexdb->EraseIndexTXID(mintSyscoin.assetAllocationTuple, txid)){
-                    LogPrint(BCLog::SYS,"DisconnectMintAsset: Could not erase mint asset allocation from asset allocation index\n");
+                    LogPrint(BCLog::VCL,"DisconnectMintAsset: Could not erase mint asset allocation from asset allocation index\n");
                     return false;
                 }
                 if(!passetindexdb->EraseIndexTXID(mintSyscoin.assetAllocationTuple.nAsset, txid)){
-                    LogPrint(BCLog::SYS,"DisconnectMintAsset: Could not erase mint asset allocation from asset index\n");
+                    LogPrint(BCLog::VCL,"DisconnectMintAsset: Could not erase mint asset allocation from asset index\n");
                     return false;
                 }
                 if(!passetindexdb->EraseIndexTXID(senderAllocationTuple, txid)){	
-                    LogPrint(BCLog::SYS,"DisconnectMintAsset: Could not erase mint sender asset allocation from asset allocation index\n");	
+                    LogPrint(BCLog::VCL,"DisconnectMintAsset: Could not erase mint sender asset allocation from asset allocation index\n");	
                 }	
                 if(!passetindexdb->EraseIndexTXID(senderAllocationTuple.nAsset, txid)){	
-                    LogPrint(BCLog::SYS,"DisconnectMintAsset: Could not erase mint sender asset allocation from asset index\n");	
+                    LogPrint(BCLog::VCL,"DisconnectMintAsset: Could not erase mint sender asset allocation from asset index\n");	
                 } 
             }
         }      
@@ -600,7 +600,7 @@ bool DisconnectAssetAllocation(const CTransaction &tx, const uint256& txid, cons
         storedSenderAllocationRef.nBalance += amountTuple.second; 
         nTotal += amountTuple.second;
         if(storedReceiverAllocationRef.nBalance < 0) {
-            LogPrint(BCLog::SYS,"DisconnectAssetAllocation: Receiver balance of %s is negative: %lld\n",receiverAllocationTuple.ToString(), storedReceiverAllocationRef.nBalance);
+            LogPrint(BCLog::VCL,"DisconnectAssetAllocation: Receiver balance of %s is negative: %lld\n",receiverAllocationTuple.ToString(), storedReceiverAllocationRef.nBalance);
             return false;
         }
         else if(storedReceiverAllocationRef.nBalance == 0){
@@ -610,11 +610,11 @@ bool DisconnectAssetAllocation(const CTransaction &tx, const uint256& txid, cons
             if(fAssetIndexGuids.empty() || std::find(fAssetIndexGuids.begin(), fAssetIndexGuids.end(), receiverAllocationTuple.nAsset) != fAssetIndexGuids.end()){
                 if(passetindexdb->Exists(std::make_pair(false, receiverAllocationTuple.nAsset))){
                     if(!passetindexdb->EraseIndexTXID(receiverAllocationTuple, txid)){
-                        LogPrint(BCLog::SYS,"DisconnectAssetAllocation: Could not erase receiver allocation from asset allocation index\n");
+                        LogPrint(BCLog::VCL,"DisconnectAssetAllocation: Could not erase receiver allocation from asset allocation index\n");
                         return false;
                     }
                     if(!passetindexdb->EraseIndexTXID(receiverAllocationTuple.nAsset, txid)){
-                        LogPrint(BCLog::SYS,"DisconnectAssetAllocation: Could not erase receiver allocation from asset index\n");
+                        LogPrint(BCLog::VCL,"DisconnectAssetAllocation: Could not erase receiver allocation from asset index\n");
                         return false;
                     }
                 } 
@@ -625,11 +625,11 @@ bool DisconnectAssetAllocation(const CTransaction &tx, const uint256& txid, cons
         if(fAssetIndexGuids.empty() || std::find(fAssetIndexGuids.begin(), fAssetIndexGuids.end(), theAssetAllocation.assetAllocationTuple.nAsset) != fAssetIndexGuids.end()){
             if(passetindexdb->Exists(std::make_pair(false, theAssetAllocation.assetAllocationTuple.nAsset))){
                 if(!passetindexdb->EraseIndexTXID(theAssetAllocation.assetAllocationTuple, txid)){
-                    LogPrint(BCLog::SYS,"DisconnectAssetAllocation: Could not erase sender allocation from asset allocation index\n");
+                    LogPrint(BCLog::VCL,"DisconnectAssetAllocation: Could not erase sender allocation from asset allocation index\n");
                     return false;
                 }
                 if(!passetindexdb->EraseIndexTXID(theAssetAllocation.assetAllocationTuple.nAsset, txid)){
-                    LogPrint(BCLog::SYS,"DisconnectAssetAllocation: Could not erase sender allocation from asset index\n");
+                    LogPrint(BCLog::VCL,"DisconnectAssetAllocation: Could not erase sender allocation from asset index\n");
                     return false;
                 }
             }
@@ -651,7 +651,7 @@ bool DisconnectSyscoinTransaction(const CTransaction& tx, const uint256& txHash,
         {
             CAssetAllocation theAssetAllocation(tx);
             if(theAssetAllocation.assetAllocationTuple.IsNull()){
-                LogPrint(BCLog::SYS,"DisconnectAssetAllocation: Could not decode asset allocation\n");
+                LogPrint(BCLog::VCL,"DisconnectAssetAllocation: Could not decode asset allocation\n");
                 return false;
             }
             GetActorsFromAssetAllocationTx(theAssetAllocation, tx.nVersion, false, false, actorSet);
@@ -691,7 +691,7 @@ bool CheckAssetAllocationInputs(const CTransaction &tx, const uint256& txHash, c
     if (passetallocationdb == nullptr)
         return false;
     if (!bSanityCheck)
-        LogPrint(BCLog::SYS,"*** ASSET ALLOCATION %d %d %s %s bSanity=%d bMiner=%d\n", nHeight,
+        LogPrint(BCLog::VCL,"*** ASSET ALLOCATION %d %d %s %s bSanity=%d bMiner=%d\n", nHeight,
             ::ChainActive().Tip()->nHeight, txHash.ToString().c_str(),
             fJustCheck ? "JUSTCHECK" : "BLOCK", bSanityCheck? 1: 0, bMiner? 1: 0);
             
@@ -1090,7 +1090,7 @@ bool CheckAssetAllocationInputs(const CTransaction &tx, const uint256& txHash, c
             if(!passetallocationdb->WriteAssetAllocationIndex(tx, txHash, dbAsset, nHeight, blockhash)){
                 return FormatSyscoinErrorMessage(state, "assetallocation-index", bMiner);
             } 
-            LogPrint(BCLog::SYS,"CONNECTED ASSET ALLOCATION: op=%s assetallocation=%s hash=%s height=%d fJustCheck=%d\n",
+            LogPrint(BCLog::VCL,"CONNECTED ASSET ALLOCATION: op=%s assetallocation=%s hash=%s height=%d fJustCheck=%d\n",
                 assetAllocationFromTx(tx.nVersion).c_str(),
                 senderTupleStr.c_str(),
                 txHash.ToString().c_str(),
@@ -1119,7 +1119,7 @@ bool DisconnectAssetSend(const CTransaction &tx, const uint256& txid, AssetMap &
     CAsset dbAsset;
     CAssetAllocation theAssetAllocation(tx);
     if(theAssetAllocation.assetAllocationTuple.IsNull()){
-        LogPrint(BCLog::SYS,"DisconnectAssetSend: Could not decode asset allocation in asset send\n");
+        LogPrint(BCLog::VCL,"DisconnectAssetSend: Could not decode asset allocation in asset send\n");
         return false;
     } 
     #if __cplusplus > 201402 
@@ -1132,7 +1132,7 @@ bool DisconnectAssetSend(const CTransaction &tx, const uint256& txid, AssetMap &
     const bool& mapAssetNotFound = result.second;
     if(mapAssetNotFound){
         if (!GetAsset(theAssetAllocation.assetAllocationTuple.nAsset, dbAsset)) {
-            LogPrint(BCLog::SYS,"DisconnectAssetSend: Could not get asset %d\n",theAssetAllocation.assetAllocationTuple.nAsset);
+            LogPrint(BCLog::VCL,"DisconnectAssetSend: Could not get asset %d\n",theAssetAllocation.assetAllocationTuple.nAsset);
             return false;               
         } 
         mapAsset->second = std::move(dbAsset);                        
@@ -1176,11 +1176,11 @@ bool DisconnectAssetSend(const CTransaction &tx, const uint256& txid, AssetMap &
             if(fAssetIndexGuids.empty() || std::find(fAssetIndexGuids.begin(), fAssetIndexGuids.end(), receiverAllocationTuple.nAsset) != fAssetIndexGuids.end()){
                 if(passetindexdb->Exists(std::make_pair(false, receiverAllocationTuple.nAsset))){
                     if(!passetindexdb->EraseIndexTXID(receiverAllocationTuple, txid)){
-                        LogPrint(BCLog::SYS,"DisconnectAssetSend: Could not erase receiver allocation from asset allocation index\n");
+                        LogPrint(BCLog::VCL,"DisconnectAssetSend: Could not erase receiver allocation from asset allocation index\n");
                         return false;
                     }
                     if(!passetindexdb->EraseIndexTXID(receiverAllocationTuple.nAsset, txid)){
-                        LogPrint(BCLog::SYS,"DisconnectAssetSend: Could not erase receiver allocation from asset index\n");
+                        LogPrint(BCLog::VCL,"DisconnectAssetSend: Could not erase receiver allocation from asset index\n");
                         return false;
                     }
                 }
@@ -1191,11 +1191,11 @@ bool DisconnectAssetSend(const CTransaction &tx, const uint256& txid, AssetMap &
         if(fAssetIndexGuids.empty() || std::find(fAssetIndexGuids.begin(), fAssetIndexGuids.end(), theAssetAllocation.assetAllocationTuple.nAsset) != fAssetIndexGuids.end()){
             if(passetindexdb->Exists(std::make_pair(false, theAssetAllocation.assetAllocationTuple.nAsset))){
                 if(!passetindexdb->EraseIndexTXID(theAssetAllocation.assetAllocationTuple, txid)){
-                    LogPrint(BCLog::SYS,"DisconnectAssetSend: Could not erase sender allocation from asset allocation index\n");
+                    LogPrint(BCLog::VCL,"DisconnectAssetSend: Could not erase sender allocation from asset allocation index\n");
                     return false;
                 }
                 if(!passetindexdb->EraseIndexTXID(theAssetAllocation.assetAllocationTuple.nAsset, txid)){
-                    LogPrint(BCLog::SYS,"DisconnectAssetSend: Could not erase sender allocation from asset index\n");
+                    LogPrint(BCLog::VCL,"DisconnectAssetSend: Could not erase sender allocation from asset index\n");
                     return false;
                 }
             }
@@ -1208,7 +1208,7 @@ bool DisconnectAssetUpdate(const CTransaction &tx, const uint256& txid, AssetMap
     CAsset dbAsset;
     CAsset theAsset(tx);
     if(theAsset.IsNull()){
-        LogPrint(BCLog::SYS,"DisconnectAssetUpdate: Could not decode asset\n");
+        LogPrint(BCLog::VCL,"DisconnectAssetUpdate: Could not decode asset\n");
         return false;
     }
     #if __cplusplus > 201402 
@@ -1221,7 +1221,7 @@ bool DisconnectAssetUpdate(const CTransaction &tx, const uint256& txid, AssetMap
     const bool &mapAssetNotFound = result.second;
     if(mapAssetNotFound){
         if (!GetAsset(theAsset.nAsset, dbAsset)) {
-            LogPrint(BCLog::SYS,"DisconnectAssetUpdate: Could not get asset %d\n",theAsset.nAsset);
+            LogPrint(BCLog::VCL,"DisconnectAssetUpdate: Could not get asset %d\n",theAsset.nAsset);
             return false;               
         } 
         mapAsset->second = std::move(dbAsset);                    
@@ -1233,14 +1233,14 @@ bool DisconnectAssetUpdate(const CTransaction &tx, const uint256& txid, AssetMap
         storedSenderRef.nBalance -= theAsset.nBalance;
         storedSenderRef.nTotalSupply -= theAsset.nBalance;
         if(storedSenderRef.nBalance < 0 || storedSenderRef.nTotalSupply < 0) {
-            LogPrint(BCLog::SYS,"DisconnectAssetUpdate: Asset cannot be negative: Balance %lld, Supply: %lld\n",storedSenderRef.nBalance, storedSenderRef.nTotalSupply);
+            LogPrint(BCLog::VCL,"DisconnectAssetUpdate: Asset cannot be negative: Balance %lld, Supply: %lld\n",storedSenderRef.nBalance, storedSenderRef.nTotalSupply);
             return false;
         }                                          
     } 
     if(fAssetIndex){
         if(fAssetIndexGuids.empty() || std::find(fAssetIndexGuids.begin(), fAssetIndexGuids.end(), theAsset.nAsset) != fAssetIndexGuids.end()){
             if(passetindexdb->Exists(std::make_pair(false, theAsset.nAsset)) && !passetindexdb->EraseIndexTXID(theAsset.nAsset, txid)){
-                LogPrint(BCLog::SYS,"DisconnectAssetUpdate: Could not erase asset update from asset index\n");
+                LogPrint(BCLog::VCL,"DisconnectAssetUpdate: Could not erase asset update from asset index\n");
                 return false;
             }
         }
@@ -1252,7 +1252,7 @@ bool DisconnectAssetTransfer(const CTransaction &tx, const uint256& txid, AssetM
     CAsset dbAsset;
     CAsset theAsset(tx);
     if(theAsset.IsNull()){
-        LogPrint(BCLog::SYS,"DisconnectAssetTransfer: Could not decode asset\n");
+        LogPrint(BCLog::VCL,"DisconnectAssetTransfer: Could not decode asset\n");
         return false;
     }
     #if __cplusplus > 201402 
@@ -1264,7 +1264,7 @@ bool DisconnectAssetTransfer(const CTransaction &tx, const uint256& txid, AssetM
     const bool &mapAssetNotFound = result.second;
     if(mapAssetNotFound){
         if (!GetAsset(theAsset.nAsset, dbAsset)) {
-            LogPrint(BCLog::SYS,"DisconnectAssetTransfer: Could not get asset %d\n",theAsset.nAsset);
+            LogPrint(BCLog::VCL,"DisconnectAssetTransfer: Could not get asset %d\n",theAsset.nAsset);
             return false;               
         } 
         mapAsset->second = std::move(dbAsset);                    
@@ -1276,7 +1276,7 @@ bool DisconnectAssetTransfer(const CTransaction &tx, const uint256& txid, AssetM
     if(fAssetIndex){
         if(fAssetIndexGuids.empty() || std::find(fAssetIndexGuids.begin(), fAssetIndexGuids.end(), theAsset.nAsset) != fAssetIndexGuids.end()){
             if(passetindexdb->Exists(std::make_pair(false, theAsset.nAsset)) && !passetindexdb->EraseIndexTXID(theAsset.nAsset, txid)){
-                LogPrint(BCLog::SYS,"DisconnectAssetTransfer: Could not erase asset update from asset index\n");
+                LogPrint(BCLog::VCL,"DisconnectAssetTransfer: Could not erase asset update from asset index\n");
                 return false;
             }
         }
@@ -1288,7 +1288,7 @@ bool DisconnectAssetActivate(const CTransaction &tx, const uint256& txid, AssetM
     CAsset theAsset(tx);
     
     if(theAsset.IsNull()){
-        LogPrint(BCLog::SYS,"DisconnectAssetActivate: Could not decode asset in asset activate\n");
+        LogPrint(BCLog::VCL,"DisconnectAssetActivate: Could not decode asset in asset activate\n");
         return false;
     }
     #if __cplusplus > 201402 
@@ -1299,7 +1299,7 @@ bool DisconnectAssetActivate(const CTransaction &tx, const uint256& txid, AssetM
     if(fAssetIndex){
         if(fAssetIndexGuids.empty() || std::find(fAssetIndexGuids.begin(), fAssetIndexGuids.end(), theAsset.nAsset) != fAssetIndexGuids.end()){
             if(passetindexdb->Exists(std::make_pair(false, theAsset.nAsset)) && !passetindexdb->EraseIndexTXID(theAsset.nAsset, txid)){
-                LogPrint(BCLog::SYS,"DisconnectAssetActivate: Could not erase asset activate from asset index\n");
+                LogPrint(BCLog::VCL,"DisconnectAssetActivate: Could not erase asset activate from asset index\n");
                 return false;
             }
         }    
@@ -1311,7 +1311,7 @@ bool CheckAssetInputs(const CTransaction &tx, const uint256& txHash, TxValidatio
     if (passetdb == nullptr)
         return false;
     if (!bSanityCheck)
-        LogPrint(BCLog::SYS, "*** ASSET %d %d %s %s\n", nHeight,
+        LogPrint(BCLog::VCL, "*** ASSET %d %d %s %s\n", nHeight,
             ::ChainActive().Tip()->nHeight, txHash.ToString().c_str(),
             fJustCheck ? "JUSTCHECK" : "BLOCK");
 
@@ -1600,7 +1600,7 @@ bool CheckAssetInputs(const CTransaction &tx, const uint256& txHash, TxValidatio
         if(!passetdb->WriteAssetIndex(tx, txHash, storedSenderAssetRef, nHeight, blockhash)){
             return FormatSyscoinErrorMessage(state, "asset-index", bMiner);
         }
-        LogPrint(BCLog::SYS,"CONNECTED ASSET: tx=%s symbol=%d hash=%s height=%d fJustCheck=%d\n",
+        LogPrint(BCLog::VCL,"CONNECTED ASSET: tx=%s symbol=%d hash=%s height=%d fJustCheck=%d\n",
                 assetFromTx(tx.nVersion).c_str(),
                 nAsset,
                 txHash.ToString().c_str(),
@@ -1617,7 +1617,7 @@ bool CBlockIndexDB::FlushErase(const std::vector<uint256> &vecTXIDs){
     for (const uint256 &txid : vecTXIDs) {
         batch.Erase(txid);
     }
-    LogPrint(BCLog::SYS, "Flushing %d block index removals\n", vecTXIDs.size());
+    LogPrint(BCLog::VCL, "Flushing %d block index removals\n", vecTXIDs.size());
     return WriteBatch(batch);
 }
 bool CBlockIndexDB::FlushWrite(const std::vector<std::pair<uint256, uint256> > &blockIndex){
@@ -1627,7 +1627,7 @@ bool CBlockIndexDB::FlushWrite(const std::vector<std::pair<uint256, uint256> > &
     for (const auto &pair : blockIndex) {
         batch.Write(pair.first, pair.second);
     }
-    LogPrint(BCLog::SYS, "Flush writing %d block indexes\n", blockIndex.size());
+    LogPrint(BCLog::VCL, "Flush writing %d block indexes\n", blockIndex.size());
     return WriteBatch(batch);
 }
 bool CLockedOutpointsDB::FlushErase(const std::vector<COutPoint> &lockedOutpoints) {
@@ -1638,7 +1638,7 @@ bool CLockedOutpointsDB::FlushErase(const std::vector<COutPoint> &lockedOutpoint
 	for (const auto &outpoint : lockedOutpoints) {
 		batch.Erase(outpoint);
 	}
-	LogPrint(BCLog::SYS, "Flushing %d locked outpoints removals\n", lockedOutpoints.size());
+	LogPrint(BCLog::VCL, "Flushing %d locked outpoints removals\n", lockedOutpoints.size());
 	return WriteBatch(batch);
 }
 bool CLockedOutpointsDB::FlushWrite(const std::vector<COutPoint> &lockedOutpoints) {
@@ -1657,7 +1657,7 @@ bool CLockedOutpointsDB::FlushWrite(const std::vector<COutPoint> &lockedOutpoint
 			batch.Write(outpoint, true);
 		}
 	}
-	LogPrint(BCLog::SYS, "Flushing %d locked outpoints (erased %d, written %d)\n", lockedOutpoints.size(), erase, write);
+	LogPrint(BCLog::VCL, "Flushing %d locked outpoints (erased %d, written %d)\n", lockedOutpoints.size(), erase, write);
 	return WriteBatch(batch);
 }
 bool CheckSyscoinLockedOutpoints(const CTransactionRef &tx, TxValidationState &state) {
@@ -1712,7 +1712,7 @@ bool CEthereumTxRootsDB::PruneTxRoots(const uint32_t &fNewGethSyncHeight) {
         // cutoff to keep blocks is ~3 week of blocks is about 120k blocks
         cutoffHeight = fNewGethSyncHeight - MAX_ETHEREUM_TX_ROOTS;
         if(fNewGethSyncHeight < MAX_ETHEREUM_TX_ROOTS){
-            LogPrint(BCLog::SYS, "Nothing to prune fGethSyncHeight = %d\n", fNewGethSyncHeight);
+            LogPrint(BCLog::VCL, "Nothing to prune fGethSyncHeight = %d\n", fNewGethSyncHeight);
             return true;
         }
     }
@@ -1837,7 +1837,7 @@ void CEthereumTxRootsDB::AuditTxRootDB(std::vector<std::pair<uint32_t, uint32_t>
             nKeyIndex = key;   
     } 
     if(!vecRemoveKeys.empty()){
-        LogPrint(BCLog::SYS, "Detected an %d inconsistent hash chains in Ethereum headers, removing...\n", vecRemoveKeys.size());
+        LogPrint(BCLog::VCL, "Detected an %d inconsistent hash chains in Ethereum headers, removing...\n", vecRemoveKeys.size());
         pethereumtxrootsdb->FlushErase(vecRemoveKeys);
     }
 }
@@ -1850,7 +1850,7 @@ bool CEthereumTxRootsDB::FlushErase(const std::vector<uint32_t> &vecHeightKeys){
     for (const auto &key : vecHeightKeys) {
         batch.Erase(key);
     }
-    LogPrint(BCLog::SYS, "Flushing, erasing %d ethereum tx roots, block range (%d-%d)\n", vecHeightKeys.size(), nFirst, nLast);
+    LogPrint(BCLog::VCL, "Flushing, erasing %d ethereum tx roots, block range (%d-%d)\n", vecHeightKeys.size(), nFirst, nLast);
     return WriteBatch(batch);
 }
 bool CEthereumTxRootsDB::FlushWrite(const EthereumTxRootMap &mapTxRoots){
@@ -1863,7 +1863,7 @@ bool CEthereumTxRootsDB::FlushWrite(const EthereumTxRootMap &mapTxRoots){
         batch.Write(key.first, key.second);
         nLast = key.first;
     }
-    LogPrint(BCLog::SYS, "Flushing, writing %d ethereum tx roots, block range (%d-%d)\n", mapTxRoots.size(), nFirst, nLast);
+    LogPrint(BCLog::VCL, "Flushing, writing %d ethereum tx roots, block range (%d-%d)\n", mapTxRoots.size(), nFirst, nLast);
     return WriteBatch(batch);
 }
 bool CEthereumMintedTxDB::FlushWrite(const EthereumMintTxVec &vecMintKeys){
@@ -1879,7 +1879,7 @@ bool CEthereumMintedTxDB::FlushWrite(const EthereumMintTxVec &vecMintKeys){
             batch.Write(key.first.second, key.first.first);
         } 
     }
-    LogPrint(BCLog::SYS, "Flushing, writing %d ethereum tx mints\n", vecMintKeys.size());
+    LogPrint(BCLog::VCL, "Flushing, writing %d ethereum tx mints\n", vecMintKeys.size());
     return WriteBatch(batch);
 }
 bool CEthereumMintedTxDB::FlushErase(const EthereumMintTxVec &vecMintKeys){
@@ -1889,6 +1889,6 @@ bool CEthereumMintedTxDB::FlushErase(const EthereumMintTxVec &vecMintKeys){
     for (const auto &key : vecMintKeys) {
         batch.Erase(key.first.first);
     }
-    LogPrint(BCLog::SYS, "Flushing, erasing %d ethereum tx mints\n", vecMintKeys.size());
+    LogPrint(BCLog::VCL, "Flushing, erasing %d ethereum tx mints\n", vecMintKeys.size());
     return WriteBatch(batch);
 }

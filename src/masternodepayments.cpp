@@ -719,7 +719,7 @@ bool CMasternodeBlockPayees::IsTransactionValid(const CTransaction& txNew, const
             }
         }
     }    
-    LogPrint(BCLog::MNPAYMENT, "CMasternodeBlockPayees::IsTransactionValid -- ERROR: Missing required payment, possible payees: '%s', amount: %f SYS\n", strPayeesPossible, (float)nMasternodePayment/COIN);
+    LogPrint(BCLog::MNPAYMENT, "CMasternodeBlockPayees::IsTransactionValid -- ERROR: Missing required payment, possible payees: '%s', amount: %f VCL\n", strPayeesPossible, (float)nMasternodePayment/COIN);
     return false;
 }
 

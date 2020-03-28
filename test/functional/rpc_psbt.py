@@ -80,7 +80,7 @@ class PSBTTest(SyscoinTestFramework):
         # Activate segwit at height 432.
         self.nodes[0].generate (500)
         self.sync_all()
-        # Create and fund a raw tx for sending 10 SYS
+        # Create and fund a raw tx for sending 10 VCL
         psbtx1 = self.nodes[0].walletcreatefundedpsbt([], {self.nodes[2].getnewaddress():10})['psbt']
 
         # Node 1 should not be able to add anything to it but still return the psbtx same as before

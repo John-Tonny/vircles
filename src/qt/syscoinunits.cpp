@@ -15,9 +15,9 @@ SyscoinUnits::SyscoinUnits(QObject *parent):
 QList<SyscoinUnits::Unit> SyscoinUnits::availableUnits()
 {
     QList<SyscoinUnits::Unit> unitlist;
-    unitlist.append(SYS);
-    unitlist.append(mSYS);
-    unitlist.append(uSYS);
+    unitlist.append(VCL);
+    unitlist.append(mVCL);
+    unitlist.append(uVCL);
     unitlist.append(SAT);
     return unitlist;
 }
@@ -26,9 +26,9 @@ bool SyscoinUnits::valid(int unit)
 {
     switch(unit)
     {
-    case SYS:
-    case mSYS:
-    case uSYS:
+    case VCL:
+    case mVCL:
+    case uVCL:
     case SAT:
         return true;
     default:
@@ -40,9 +40,9 @@ QString SyscoinUnits::longName(int unit)
 {
     switch(unit)
     {
-    case SYS: return QString("SYS");
-    case mSYS: return QString("mSYS");
-    case uSYS: return QString::fromUtf8("µSYS (bits)");
+    case VCL: return QString("VCL");
+    case mVCL: return QString("mVCL");
+    case uVCL: return QString::fromUtf8("µSYS (bits)");
     case SAT: return QString("Satoshi (sat)");
     default: return QString("???");
     }
@@ -52,7 +52,7 @@ QString SyscoinUnits::shortName(int unit)
 {
     switch(unit)
     {
-    case uSYS: return QString::fromUtf8("bits");
+    case uVCL: return QString::fromUtf8("bits");
     case SAT: return QString("sat");
     default: return longName(unit);
     }
@@ -62,9 +62,9 @@ QString SyscoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case SYS: return QString("Syscoins");
-    case mSYS: return QString("Milli-Syscoins (1 / 1" THIN_SP_UTF8 "000)");
-    case uSYS: return QString("Micro-Syscoins (bits) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case VCL: return QString("Syscoins");
+    case mVCL: return QString("Milli-Syscoins (1 / 1" THIN_SP_UTF8 "000)");
+    case uVCL: return QString("Micro-Syscoins (bits) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     case SAT: return QString("Satoshi (sat) (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     default: return QString("???");
     }
@@ -74,9 +74,9 @@ qint64 SyscoinUnits::factor(int unit)
 {
     switch(unit)
     {
-    case SYS: return 100000000;
-    case mSYS: return 100000;
-    case uSYS: return 100;
+    case VCL: return 100000000;
+    case mVCL: return 100000;
+    case uVCL: return 100;
     case SAT: return 1;
     default: return 100000000;
     }
@@ -86,9 +86,9 @@ int SyscoinUnits::decimals(int unit)
 {
     switch(unit)
     {
-    case SYS: return 8;
-    case mSYS: return 5;
-    case uSYS: return 2;
+    case VCL: return 8;
+    case mVCL: return 5;
+    case uVCL: return 2;
     case SAT: return 0;
     default: return 0;
     }

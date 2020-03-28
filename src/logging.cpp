@@ -168,7 +168,7 @@ const CLogCategoryDesc LogCategories[] =
     {BCLog::MNPAYMENT, "mnpayments"},
     {BCLog::MNSYNC, "mnsync"},
     {BCLog::SPORK, "spork"},
-    {BCLog::SYS, "syscoin"},
+    {BCLog::VCL, "syscoin"},
     {BCLog::ALL, "1"},
     {BCLog::ALL, "all"},
 };

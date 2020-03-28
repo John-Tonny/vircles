@@ -122,7 +122,7 @@ public:
 
             const QFontMetrics fm(fontMetrics());
             int h = lineEdit()->minimumSizeHint().height();
-            int w = GUIUtil::TextWidth(fm, SyscoinUnits::format(SyscoinUnits::SYS, SyscoinUnits::maxMoney(), false, SyscoinUnits::separatorAlways));
+            int w = GUIUtil::TextWidth(fm, SyscoinUnits::format(SyscoinUnits::VCL, SyscoinUnits::maxMoney(), false, SyscoinUnits::separatorAlways));
             w += 2; // cursor blinking space
 
             QStyleOptionSpinBox opt;
@@ -148,7 +148,7 @@ public:
     }
 
 private:
-    int currentUnit{SyscoinUnits::SYS};
+    int currentUnit{SyscoinUnits::VCL};
     CAmount singleStep{CAmount(100000)}; // satoshis
     mutable QSize cachedMinimumSizeHint;
     bool m_allow_empty{true};

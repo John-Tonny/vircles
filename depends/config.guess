@@ -1189,7 +1189,7 @@ EOF
 	  echo i860-unknown-sysv"$UNAME_RELEASE"  # Unknown i860-SVR4
 	fi
 	exit ;;
-    mini*:CTIX:SYS*5:*)
+    mini*:CTIX:VCL*5:*)
 	# "miniframe"
 	echo m68010-convergent-sysv
 	exit ;;

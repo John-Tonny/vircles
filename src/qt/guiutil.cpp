@@ -153,7 +153,7 @@ bool parseSyscoinURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!SyscoinUnits::parse(SyscoinUnits::SYS, i->second, &rv.amount))
+                if(!SyscoinUnits::parse(SyscoinUnits::VCL, i->second, &rv.amount))
                 {
                     return false;
                 }
@@ -188,7 +188,7 @@ QString formatSyscoinURI(const SendCoinsRecipient &info)
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(SyscoinUnits::format(SyscoinUnits::SYS, info.amount, false, SyscoinUnits::separatorNever));
+        ret += QString("?amount=%1").arg(SyscoinUnits::format(SyscoinUnits::VCL, info.amount, false, SyscoinUnits::separatorNever));
         paramCount++;
     }
 

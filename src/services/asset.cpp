@@ -91,7 +91,7 @@ bool GetSyscoinData(const CScript &scriptPubKey, vector<unsigned char> &vchData)
         nDifferenceAllowed++;
     }
     if(nSize > (vchData.size() + nDifferenceAllowed)){
-        LogPrint(BCLog::SYS, "GetSyscoinData too big scriptPubKey size %d vchData %d\n", scriptPubKey.size(), vchData.size()); 
+        LogPrint(BCLog::VCL, "GetSyscoinData too big scriptPubKey size %d vchData %d\n", scriptPubKey.size(), vchData.size()); 
         return false;
     }
 	return true;
@@ -117,29 +117,29 @@ bool GetSyscoinBurnData(const CTransaction &tx, CAssetAllocation* theAssetAlloca
 bool GetSyscoinBurnData(const CTransaction &tx, uint32_t& nAssetFromScript, CWitnessAddress& burnWitnessAddress, CAmount &nAmountFromScript, std::vector<unsigned char> &vchEthAddress, uint8_t &nPrecision, std::vector<unsigned char> &vchEthContract)
 {
     if(tx.nVersion != SYSCOIN_TX_VERSION_ALLOCATION_BURN_TO_ETHEREUM){
-        LogPrint(BCLog::SYS, "GetSyscoinBurnData: Invalid transaction version\n");
+        LogPrint(BCLog::VCL, "GetSyscoinBurnData: Invalid transaction version\n");
         return false;
     }
     int nOut = GetSyscoinDataOutput(tx);
     if (nOut == -1){
-        LogPrint(BCLog::SYS, "GetSyscoinBurnData: Data index must be positive\n");
+        LogPrint(BCLog::VCL, "GetSyscoinBurnData: Data index must be positive\n");
         return false;
     }
 
     const CScript &scriptPubKey = tx.vout[nOut].scriptPubKey;
     std::vector<std::vector< unsigned char> > vvchArgs;
     if(!GetSyscoinBurnData(scriptPubKey, vvchArgs)){
-        LogPrint(BCLog::SYS, "GetSyscoinBurnData: Cannot get burn data\n");
+        LogPrint(BCLog::VCL, "GetSyscoinBurnData: Cannot get burn data\n");
         return false;
     }
         
     if(vvchArgs.size() != 7){
-        LogPrint(BCLog::SYS, "GetSyscoinBurnData: Wrong argument size %d\n", vvchArgs.size());
+        LogPrint(BCLog::VCL, "GetSyscoinBurnData: Wrong argument size %d\n", vvchArgs.size());
         return false;
     }
           
     if(vvchArgs[0].size() != 4){
-        LogPrint(BCLog::SYS, "GetSyscoinBurnData: nAssetFromScript - Wrong argument size %d\n", vvchArgs[0].size());
+        LogPrint(BCLog::VCL, "GetSyscoinBurnData: nAssetFromScript - Wrong argument size %d\n", vvchArgs[0].size());
         return false;
     }
         
@@ -149,7 +149,7 @@ bool GetSyscoinBurnData(const CTransaction &tx, uint32_t& nAssetFromScript, CWit
     nAssetFromScript |= static_cast<uint32_t>(vvchArgs[0][0]) << 24;
             
     if(vvchArgs[1].size() != 8){
-        LogPrint(BCLog::SYS, "GetSyscoinBurnData: nAmountFromScript - Wrong argument size %d\n", vvchArgs[1].size());
+        LogPrint(BCLog::VCL, "GetSyscoinBurnData: nAmountFromScript - Wrong argument size %d\n", vvchArgs[1].size());
         return false; 
     }
     uint64_t result = static_cast<uint64_t>(vvchArgs[1][7]);
@@ -163,7 +163,7 @@ bool GetSyscoinBurnData(const CTransaction &tx, uint32_t& nAssetFromScript, CWit
     nAmountFromScript = (CAmount)result;
     
     if(vvchArgs[2].empty()){
-        LogPrint(BCLog::SYS, "GetSyscoinBurnData: Ethereum address empty\n");
+        LogPrint(BCLog::VCL, "GetSyscoinBurnData: Ethereum address empty\n");
         return false; 
     }
     vchEthAddress = vvchArgs[2]; 
@@ -171,19 +171,19 @@ bool GetSyscoinBurnData(const CTransaction &tx, uint32_t& nAssetFromScript, CWit
     nPrecision = static_cast<uint8_t>(vvchArgs[3][0]);
 
     if(vvchArgs[4].empty()){
-        LogPrint(BCLog::SYS, "GetSyscoinBurnData: Ethereum contract empty\n");
+        LogPrint(BCLog::VCL, "GetSyscoinBurnData: Ethereum contract empty\n");
         return false; 
     }
     vchEthContract = vvchArgs[4]; 
 
     if(vvchArgs[5].size() != 1){
-        LogPrint(BCLog::SYS, "GetSyscoinBurnData: Witness address version - Wrong argument size %d\n", vvchArgs[3].size());
+        LogPrint(BCLog::VCL, "GetSyscoinBurnData: Witness address version - Wrong argument size %d\n", vvchArgs[3].size());
         return false;
     }
     const unsigned char &nWitnessVersion = static_cast<unsigned char>(vvchArgs[5][0]);
     
     if(vvchArgs[6].empty()){
-        LogPrint(BCLog::SYS, "GetSyscoinBurnData: Witness address empty\n");
+        LogPrint(BCLog::VCL, "GetSyscoinBurnData: Witness address empty\n");
         return false;
     }     
     
@@ -236,7 +236,7 @@ bool GetSyscoinBurnData(const CScript &scriptPubKey, std::vector<std::vector<uns
     vchData.push_back(vchArg);
     vchArg.clear();
     if(pc != scriptPubKey.end()){
-        LogPrint(BCLog::SYS, "GetSyscoinBurnData invalid data proceeding push data for burn elements...\n"); 
+        LogPrint(BCLog::VCL, "GetSyscoinBurnData invalid data proceeding push data for burn elements...\n"); 
         return false;
     }             
     return true;
@@ -500,7 +500,7 @@ bool WriteAssetIndexTXID(const uint32_t& nAsset, const uint256& txid){
     if(!passetindexdb->ReadAssetPage(nAsset, page)){
         page = 0;
         if(!passetindexdb->WriteAssetPage(nAsset, page)){
-           LogPrint(BCLog::SYS, "Failed to write asset page\n");   
+           LogPrint(BCLog::VCL, "Failed to write asset page\n");   
            return false; 
         }              
     }
@@ -512,13 +512,13 @@ bool WriteAssetIndexTXID(const uint32_t& nAsset, const uint256& txid){
         TXIDS.clear();
         page++;
         if(!passetindexdb->WriteAssetPage(nAsset, page)){
-            LogPrint(BCLog::SYS, "Failed to write asset page\n");
+            LogPrint(BCLog::VCL, "Failed to write asset page\n");
             return false;
         }
     }
     TXIDS.push_back(txid);
     if(!passetindexdb->WriteIndexTXIDs(nAsset, page, TXIDS)){
-        LogPrint(BCLog::SYS, "Failed to write asset index txids\n");
+        LogPrint(BCLog::VCL, "Failed to write asset index txids\n");
         return false;
     }
     return true;
@@ -526,7 +526,7 @@ bool WriteAssetIndexTXID(const uint32_t& nAsset, const uint256& txid){
 bool CAssetDB::WriteAssetIndex(const CTransaction& tx, const uint256& txid, const CAsset& dbAsset, const int& nHeight, const uint256& blockhash) {
 	if (fZMQAsset || fAssetIndex) {
         if(!fAssetIndexGuids.empty() && std::find(fAssetIndexGuids.begin(),fAssetIndexGuids.end(),dbAsset.nAsset) == fAssetIndexGuids.end()){
-            LogPrint(BCLog::SYS, "Asset cannot be indexed because it is not set in -assetindexguids list\n");
+            LogPrint(BCLog::VCL, "Asset cannot be indexed because it is not set in -assetindexguids list\n");
             return true;
         }
 		UniValue oName(UniValue::VOBJ);
@@ -538,7 +538,7 @@ bool CAssetDB::WriteAssetIndex(const CTransaction& tx, const uint256& txid, cons
             {
                 WriteAssetIndexTXID(dbAsset.nAsset, txid);
                 if(!passetindexdb->WritePayload(txid, oName)){
-                    LogPrint(BCLog::SYS, "Failed to write asset index payload\n");
+                    LogPrint(BCLog::VCL, "Failed to write asset index payload\n");
                     return false;
                 }
             }
@@ -725,7 +725,7 @@ bool CAssetDB::Flush(const AssetMap &mapAssets){
             mapGuids.erase(it);        
         }
     }
-    LogPrint(BCLog::SYS, "Flushing %d assets (erased %d, written %d)\n", mapAssets.size(), erase, write);
+    LogPrint(BCLog::VCL, "Flushing %d assets (erased %d, written %d)\n", mapAssets.size(), erase, write);
     return WriteBatch(batch);
 }
 bool CAssetDB::ScanAssets(const uint32_t count, const uint32_t from, const UniValue& oOptions, UniValue& oRes) {
@@ -812,7 +812,7 @@ bool CAssetIndexDB::ScanAssetIndex(uint32_t page, const UniValue& oOptions, UniV
             nAsset = assetObj.get_uint();
         }
         else{
-            LogPrint(BCLog::SYS, "ScanAssetIndex: failed, asset guid is not a number\n");
+            LogPrint(BCLog::VCL, "ScanAssetIndex: failed, asset guid is not a number\n");
             return false;
         }
 
@@ -822,7 +822,7 @@ bool CAssetIndexDB::ScanAssetIndex(uint32_t page, const UniValue& oOptions, UniV
         }
     }
     else{
-        LogPrint(BCLog::SYS, "ScanAssetIndex: failed, options are not found\n");
+        LogPrint(BCLog::VCL, "ScanAssetIndex: failed, options are not found\n");
         return false;
     }
     vector<uint256> vecTX;
@@ -837,20 +837,20 @@ bool CAssetIndexDB::ScanAssetIndex(uint32_t page, const UniValue& oOptions, UniV
             return true;
     }
     if(pageFound < page){
-        LogPrint(BCLog::SYS, "ScanAssetIndex: failed, no entries found in the page table pageFound %d vs %d page\n",pageFound, page);
+        LogPrint(BCLog::VCL, "ScanAssetIndex: failed, no entries found in the page table pageFound %d vs %d page\n",pageFound, page);
         return false;
     }
     // order by highest page first
     page = pageFound - page;
     if(scanAllocation){
         if(!ReadIndexTXIDs(assetTuple, page, vecTX)){
-            LogPrint(BCLog::SYS, "ScanAssetIndex: failed, cannot read TXIDs of allocation\n");
+            LogPrint(BCLog::VCL, "ScanAssetIndex: failed, cannot read TXIDs of allocation\n");
             return false;
         }
     }
     else{
         if(!ReadIndexTXIDs(nAsset, page, vecTX)){
-            LogPrint(BCLog::SYS, "ScanAssetIndex: failed, cannot read TXIDs of asset\n");
+            LogPrint(BCLog::VCL, "ScanAssetIndex: failed, cannot read TXIDs of asset\n");
             return false;
         }
     }
@@ -873,7 +873,7 @@ bool CAssetIndexDB::FlushErase(const std::vector<uint256> &vecTXIDs){
         // erase payload
         batch.Erase(txid);
     }
-    LogPrint(BCLog::SYS, "Flushing %d asset index removals\n", vecTXIDs.size());
+    LogPrint(BCLog::VCL, "Flushing %d asset index removals\n", vecTXIDs.size());
     return WriteBatch(batch);
 }
 

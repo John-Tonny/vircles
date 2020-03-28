@@ -540,7 +540,7 @@ int VerifyTransactionGraph(const uint256& lookForTxHash) {
         for(const auto& actor: actorSet){
             auto it = assetAllocationConflicts.find(actor);
             if (it != assetAllocationConflicts.end()){
-                LogPrint(BCLog::SYS, "VerifyTransactionGraph: Actor Conflict %s\n", actor);
+                LogPrint(BCLog::VCL, "VerifyTransactionGraph: Actor Conflict %s\n", actor);
                 return ZDAG_MAJOR_CONFLICT;
             }
         }
@@ -1182,7 +1182,7 @@ UniValue syscoinsetethstatus(const JSONRPCRequest& request) {
     UniValue retArray(UniValue::VARR);
     static uint64_t nLastExecTime = GetSystemTimeInSeconds();
     if(!fUnitTest && GetSystemTimeInSeconds() - nLastExecTime <= 60){
-        LogPrint(BCLog::SYS, "Please wait at least 1 minute between status calls\n");
+        LogPrint(BCLog::VCL, "Please wait at least 1 minute between status calls\n");
         ret.__pushKV("missing_blocks", retArray);
         return ret;
     }
@@ -1212,7 +1212,7 @@ UniValue syscoinsetethstatus(const JSONRPCRequest& request) {
             retArray.push_back(retRange);
         }
     }
-    LogPrint(BCLog::SYS, "syscoinsetethstatus old height %d new height %d\n", nGethOldHeight, fGethCurrentHeight);
+    LogPrint(BCLog::VCL, "syscoinsetethstatus old height %d new height %d\n", nGethOldHeight, fGethCurrentHeight);
     ret.__pushKV("missing_blocks", retArray);
     if(fZMQEthStatus){
         UniValue oEthStatus(UniValue::VOBJ);

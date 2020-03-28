@@ -34,7 +34,7 @@ CFeeRate GetMinimumFeeRate(const CWallet& wallet, const CCoinControl& coin_contr
        4. m_confirm_target (user-set member variable of wallet)
        The first parameter that is set is used.
     */
-   // SYS until we get full blocks we just relay on getrequiredfeerate which is based on the relayminfee
+   // VCL until we get full blocks we just relay on getrequiredfeerate which is based on the relayminfee
      CFeeRate feerate_needed;
     /* if (coin_control.m_feerate) { // 1.
         feerate_needed = *(coin_control.m_feerate);

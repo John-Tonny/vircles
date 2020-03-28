@@ -263,7 +263,7 @@ class RawTransactionsTest(SyscoinTestFramework):
         #use balance deltas instead of absolute values
         bal = self.nodes[2].getbalance()
 
-        # send 1.2 SYS to msig adr
+        # send 1.2 VCL to msig adr
         txId = self.nodes[0].sendtoaddress(mSigObj, 1.2)
         self.sync_all()
         self.nodes[0].generate(1)
@@ -451,7 +451,7 @@ class RawTransactionsTest(SyscoinTestFramework):
         rawTx = self.nodes[2].createrawtransaction(inputs, outputs)
         rawTxSigned = self.nodes[2].signrawtransactionwithwallet(rawTx)
         assert_equal(rawTxSigned['complete'], True)
-        # Fee 10,000 satoshis, ~100 b transaction, fee rate should land around 100 sat/byte = 0.00100000 SYS/kB
+        # Fee 10,000 satoshis, ~100 b transaction, fee rate should land around 100 sat/byte = 0.00100000 VCL/kB
         # Thus, testmempoolaccept should reject
         testres = self.nodes[2].testmempoolaccept([rawTxSigned['hex']], 0.00001000)[0]
         assert_equal(testres['allowed'], False)

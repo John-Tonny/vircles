@@ -60,7 +60,7 @@ namespace BCLog {
         MNPAYMENT  = (1 << 24),
         MNSYNC  = (1 << 25),
         SPORK  = (1 << 26),
-        SYS  = (1 << 27),
+        VCL  = (1 << 27),
         ALL         = ~(uint32_t)0,
     };
 

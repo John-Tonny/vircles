@@ -28,7 +28,7 @@ class TxViewDelegate : public QAbstractItemDelegate
     Q_OBJECT
 public:
     explicit TxViewDelegate(const PlatformStyle *_platformStyle, QObject *parent=nullptr):
-        QAbstractItemDelegate(parent), unit(SyscoinUnits::SYS),
+        QAbstractItemDelegate(parent), unit(SyscoinUnits::VCL),
         platformStyle(_platformStyle)
     {
 
@@ -242,7 +242,7 @@ void OverviewPage::setWalletModel(WalletModel *model)
         });
     }
 
-    // update the display unit, to not use the default ("SYS")
+    // update the display unit, to not use the default ("VCL")
     updateDisplayUnit();
 }
 

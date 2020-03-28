@@ -40,9 +40,9 @@ public:
      */
     enum Unit
     {
-        SYS,
-        mSYS,
-        uSYS,
+        VCL,
+        mVCL,
+        uVCL,
         SAT
     };
 

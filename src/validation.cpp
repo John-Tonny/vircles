@@ -1036,7 +1036,7 @@ bool MemPoolAccept::ConsensusScriptChecks(ATMPArgs& args, Workspace& ws, Precomp
     if (IsSyscoinTx(tx.nVersion) && !CheckSyscoinInputs(tx, hash, state, m_view, true, ::ChainActive().Height(), ::ChainActive().Tip()->GetMedianTimePast(), args.m_test_accept || args.m_bypass_limits)) {
         // mark to remove from mempool, because if we remove right away then the transaction data cannot be relayed most of the time
         if(!args.m_test_accept && state.IsError()){
-            LogPrint(BCLog::SYS, "Double spend detected on tx %s! %s\n", hash.GetHex(), FormatStateMessage(state));
+            LogPrint(BCLog::VCL, "Double spend detected on tx %s! %s\n", hash.GetHex(), FormatStateMessage(state));
             LOCK(cs_assetallocationmempoolremovetx);
             vecToRemoveFromMempool.emplace_back(hash, ::ChainActive().Tip()->GetMedianTimePast());
         }
