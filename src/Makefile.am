@@ -100,7 +100,7 @@ endif
 endif
 
 .PHONY: FORCE check-symbols check-security
-# syscoin core #
+# vircles core #
 SYSCOIN_CORE_H = \
   services/graph.h \
   services/witnessaddress.h \
