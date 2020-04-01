@@ -209,8 +209,8 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0x00000051cfa34a5a574fbf4f3aec9a919b217e38ad23ed131288842181c786c2"));
         assert(genesis.hashMerkleRoot == uint256S("0xbf9defc97985b32b87cc307611cb1edb11d738b21a8fa4bd4b53cdaaa6c8e93e"));
 
-        vSeeds.emplace_back("47.105.157.227");
-        vSeeds.emplace_back("118.190.201.80");
+        // vSeeds.emplace_back("47.105.157.227");
+        // vSeeds.emplace_back("118.190.201.80");
         
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
@@ -230,15 +230,15 @@ public:
 
         //add by luke
         //Performance Fund
-        strPerformanceAddr = "sys1qyfa7q4zrhlk64e7jcsrhh6thmmm4wepwt42rfaveq2jwpj0hl3rstvmss5";
+        strPerformanceAddr = "33H7wYaJEwy7yqWATNGLSiGi6ZUebPH4CA";
         nPerformancePercent = 80;
         
         // Note:Community funds and technology funds are different sources of funding from performance funds
         //Community Fund
-        strCommunityAddr   = "sys1q773ajal8zjmf6wxfe4duts3yqrpptucqgfqsghf0k720xglafkws7qs3lq";
+        strCommunityAddr   = "3FUkeAyniko15y1WxQgy1dFMNW9EkqJYy2";
         nCommunityPercent = 79;
         //Technology Fund
-        strTechnologyAddr  = "sys1q4w078u9x495ng2n4xe2qp9hmmu0ds66up4xffvhhz8l7gyvyfwwsh2uyu6";  
+        strTechnologyAddr  = "37gDp67pQjQ9JL4ifDAGiqr7SsUwghuwgW";  
         nTechnologyPercent = 100 - nCommunityPercent;
 
         checkpointData = {
