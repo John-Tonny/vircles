@@ -191,7 +191,7 @@ public:
         pchMessageStart[1] = 0x2b;
         pchMessageStart[2] = 0x3c;
         pchMessageStart[3] = 0x4d;
-        nDefaultPort = 9070;
+        nDefaultPort = 9069;
         nPruneAfterHeight = 100000;
         m_assumed_blockchain_size = 30;
         m_assumed_chain_state_size = 2;
@@ -209,9 +209,9 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0x00000051cfa34a5a574fbf4f3aec9a919b217e38ad23ed131288842181c786c2"));
         assert(genesis.hashMerkleRoot == uint256S("0xbf9defc97985b32b87cc307611cb1edb11d738b21a8fa4bd4b53cdaaa6c8e93e"));
 
-        vSeeds.emplace_back("47.105.68.82");
-        // vSeeds.emplace_back("47.105.157.227");
-        // vSeeds.emplace_back("118.190.201.80");
+        // vSeeds.emplace_back("47.105.68.82");
+        vSeeds.emplace_back("47.105.157.227");
+        vSeeds.emplace_back("118.190.201.80");
         
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
