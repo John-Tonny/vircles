@@ -50,7 +50,7 @@ bool IsBlockValueValid(const CBlock& block, int nBlockHeight, const CAmount &blo
     int FundEnd = nBlockHeight / HalvingInterval;
     CAmount TwoFundReward = 0;
     TwoFundReward = (FundEnd == 0) ? (1400*10000*COIN)/HalvingInterval : (725*10000*COIN)/HalvingInterval;
-    CAmount blockRewardWithFee = blockReward + nFee + 0.1 * COIN;
+    CAmount blockRewardWithFee = blockReward + nFee + 0.001 * COIN;
     if (FundEnd < 3){
         blockRewardWithFee += TwoFundReward;
     }

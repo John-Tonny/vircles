@@ -2375,7 +2375,7 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
 
             CAmount PerformanceCoin = (nBlockReward * Params().GetPerformancePercent()) / 100;
             LogPrintf("txNew.vout[1].nValue=%d, PerformanceCoin + nHalfFee=%s\n", FormatMoney(txNew.vout[1].nValue), FormatMoney(PerformanceCoin + nHalfFee));
-            if (txNew.vout[1].scriptPubKey != PerformancePubKey || txNew.vout[1].nValue > PerformanceCoin + nHalfFee + 0.1 * COIN) {
+            if (txNew.vout[1].scriptPubKey != PerformancePubKey || txNew.vout[1].nValue > PerformanceCoin + nHalfFee + 0.001 * COIN) {
                 LogPrintf("IsBlockPayeeValid -- Valid performance fund payment at height %d: %s\n", nBlockHeight, txNew.ToString());
                 return false;
             }
@@ -2386,7 +2386,7 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
             // const CTxDestination CommunityScript = DecodeDestination("sys1qt365atvnmjtp3cq8qstt3latv4ntahpln0hd609r60rygzftgvhshvg3wj");
             const CScript CommunityPubKey = GetScriptForDestination(CommunityScript);
             CAmount CommunityCoin = (TwoFundReward * Params().GetCommunityPercent()) / 100;
-            if (txNew.vout[2].scriptPubKey != CommunityPubKey || txNew.vout[2].nValue > CommunityCoin + nHalfFee + 0.1 * COIN) {
+            if (txNew.vout[2].scriptPubKey != CommunityPubKey || txNew.vout[2].nValue > CommunityCoin + nHalfFee + 0.001 * COIN) {
                 LogPrintf("IsBlockPayeeValid -- Valid community fund payment at height %d: %s\n", nBlockHeight, txNew.ToString());
                 return false;
             }
@@ -2397,7 +2397,7 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
             // const CTxDestination TechnologyScript = DecodeDestination("sys1qvxpzc859n90ud7pegca73f2nj80alavdq6mke0qmsap4awvt2lsszx3vpf");
             const CScript TechnologyPubKey = GetScriptForDestination(TechnologyScript);
             CAmount TechnologyCoin = (TwoFundReward * Params().GetTechnologyPercent()) / 100;
-            if (txNew.vout[3].scriptPubKey != TechnologyPubKey || txNew.vout[3].nValue > TechnologyCoin + nHalfFee + 0.1 * COIN) {
+            if (txNew.vout[3].scriptPubKey != TechnologyPubKey || txNew.vout[3].nValue > TechnologyCoin + nHalfFee + 0.001 * COIN) {
                 LogPrintf("IsBlockPayeeValid -- Valid technology fund payment at height %d: %s\n", nBlockHeight, txNew.ToString());
                 return false;
             }
@@ -2409,7 +2409,7 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
             // const CTxDestination PerformanceScript = DecodeDestination("sys1qchfrggux8tq8ns8z5qy74ete2a6tceekau9scmk4rtv7tlzetx4qlf9z9f");
             const CScript PerformancePubKey = GetScriptForDestination(PerformanceScript);
             CAmount PerformanceCoin = (nBlockReward * Params().GetPerformancePercent()) / 100;
-            if (txNew.vout[1].scriptPubKey != PerformancePubKey || txNew.vout[1].nValue > PerformanceCoin + nHalfFee + 0.1 * COIN) {
+            if (txNew.vout[1].scriptPubKey != PerformancePubKey || txNew.vout[1].nValue > PerformanceCoin + nHalfFee + 0.001 * COIN) {
                 LogPrintf("IsBlockPayeeValid -- Valid performance fund payment at height %d: %s\n", nBlockHeight, txNew.ToString());
                 return false;
             }
