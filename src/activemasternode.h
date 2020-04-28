@@ -74,6 +74,9 @@ public:
     std::string GetStatus() const;
     std::string GetTypeString() const;
 
+    int nPingRetries = 0;           // add by luke 2020-4-28
+    int GetPingRetries() const;     // add by luke 2020-4-28
+
     bool UpdateSentinelPing(int version);
 
     void DoMaintenance(CConnman &connman) { ManageState(connman); }

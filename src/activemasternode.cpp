@@ -65,6 +65,15 @@ std::string CActiveMasternode::GetStatus() const
     }
 }
 
+int CActiveMasternode::GetPingRetries() const   //add by luke
+{
+    mnodeman.CheckMasternode(pubKeyMasternode, true);
+    masternode_info_t infoMn;
+    if (mnodeman.GetMasternodeInfo(pubKeyMasternode, infoMn)) {
+        return infoMn.nPingRetries;
+    }
+}
+
 std::string CActiveMasternode::GetTypeString() const
 {
     std::string strType;

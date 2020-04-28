@@ -378,6 +378,7 @@ UniValue masternode(const JSONRPCRequest& request)
         }
 
         mnObj.pushKV("status", activeMasternode.GetStatus());
+        mnObj.pushKV("pingretries",activeMasternode.GetPingRetries());  //add by luke
         return mnObj;
     }
 
