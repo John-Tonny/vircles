@@ -196,7 +196,7 @@ public:
         m_assumed_blockchain_size = 30;
         m_assumed_chain_state_size = 2;
 
-        genesis = CreateGenesisBlock(1585670400, 1138669, 0x1e0fffff, 1, 50 * COIN);
+        genesis = CreateGenesisBlock(1589256000, 30180, 0x1e0fffff, 1, 50 * COIN);
         // new
         // genesis = CreateGenesisBlockMainNet(1584370800, 1138669, 0x1e0fffff);
 
@@ -206,12 +206,12 @@ public:
         // GenerateGenesisBlock(genesisHeader, hash);
 
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x0000066e6810ff0642cc34fe5fc3c66c3f39c9a0c713c079df427524994fc06a"));
+        assert(consensus.hashGenesisBlock == uint256S("0x0000002cbfde1ab2aa13d55f9205c5ca15cdd4c3d30ab3622cbf41652c93f56e"));
         assert(genesis.hashMerkleRoot == uint256S("0xbf9defc97985b32b87cc307611cb1edb11d738b21a8fa4bd4b53cdaaa6c8e93e"));
 
         // vSeeds.emplace_back("47.105.68.82");
-        vSeeds.emplace_back("47.105.157.227");
-        vSeeds.emplace_back("118.190.201.80");
+        // vSeeds.emplace_back("47.105.157.227");
+        // vSeeds.emplace_back("118.190.201.80");
         
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,63);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,5);
@@ -249,7 +249,7 @@ public:
                 // { 5000, uint256S("0xeef3554a3f467bcdc7570f799cecdb262058cecf34d555827c99b5719b1df4f6")},
                 // { 10000, uint256S("0xe44257e8e027e8a67fd647c54e1bd6976988d75b416affabe3f82fd87a67f5ff")},
                 
-                { 0, uint256S("0x0000066e6810ff0642cc34fe5fc3c66c3f39c9a0c713c079df427524994fc06a")},
+                { 0, uint256S("0x0000002cbfde1ab2aa13d55f9205c5ca15cdd4c3d30ab3622cbf41652c93f56e")},
                 
             }
         };
