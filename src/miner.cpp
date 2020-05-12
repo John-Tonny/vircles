@@ -176,8 +176,8 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     if (nHeight == 1) {
         coinbaseTx.vout[0].nValue = 1 * COIN;
         //community fund
-        std::string CommunityAddr = Params().GetCommunityAddr();
-        const CTxDestination PreMinerScript = DecodeDestination(CommunityAddr);
+        std::string BusinessAddr = Params().GetBusinessAddr();
+        const CTxDestination PreMinerScript = DecodeDestination(BusinessAddr);
         // const CTxDestination PreMinerScript = DecodeDestination("sys1qt365atvnmjtp3cq8qstt3latv4ntahpln0hd609r60rygzftgvhshvg3wj");
         if (!IsValidDestination(PreMinerScript)) {
                 throw std::runtime_error("Error: Invalid PreMiner payout address");

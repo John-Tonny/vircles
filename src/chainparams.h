@@ -94,6 +94,7 @@ public:
     const std::string& GetPerformanceAddr() const { return strPerformanceAddr; }
     const std::string& GetCommunityAddr() const { return strCommunityAddr; }
     const std::string& GetTechnologyAddr() const { return strTechnologyAddr; }
+    const std::string& GetBusinessAddr() const { return strBusinessAddr; }
 
     int GetPerformancePercent() const { return nPerformancePercent; }
     int GetCommunityPercent() const { return nCommunityPercent; }
@@ -127,6 +128,7 @@ protected:
     std::string strPerformanceAddr;
     std::string strCommunityAddr;
     std::string strTechnologyAddr;
+    std::string strBusinessAddr;
 
     int nPerformancePercent;
     int nCommunityPercent;

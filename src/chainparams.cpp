@@ -231,16 +231,17 @@ public:
 
         //add by luke
         //Performance Fund
-        strPerformanceAddr = "33H7wYaJEwy7yqWATNGLSiGi6ZUebPH4CA";
+        strPerformanceAddr = "33jNHYbBY5wrC6enid4wHrUD9w1Tu2kt9G";
         nPerformancePercent = 80;
-        
         // Note:Community funds and technology funds are different sources of funding from performance funds
         //Community Fund
-        strCommunityAddr   = "3FUkeAyniko15y1WxQgy1dFMNW9EkqJYy2";
-        nCommunityPercent = 79;
+        strCommunityAddr   = "3NJwWrPsDpvWJ8wbMPvGgCmvVGbwH5DHQY";
+        nCommunityPercent = 80;
         //Technology Fund
-        strTechnologyAddr  = "37gDp67pQjQ9JL4ifDAGiqr7SsUwghuwgW";  
+        strTechnologyAddr  = "3CbBkp3Cj5i29SRwCg1rQM49KvuEwWCyQL";  
         nTechnologyPercent = 100 - nCommunityPercent;
+        //Business Fund
+        strBusinessAddr = "Sa9T57cng8Sg9fFXLgfASxpygXUemYStKF";
 
         checkpointData = {
             {
