@@ -309,7 +309,7 @@ static UniValue setgenerate(const JSONRPCRequest& request)
     if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
         return NullUniValue;
     }
-    if (request.fHelp || request.params.size() < 2 || request.params.size() > 3) {
+    if (request.fHelp || request.params.size() < 1 || request.params.size() > 3) {
          throw std::runtime_error(
             RPCHelpMan{"setgenerate",
                 "\nSet 'generate' true or false to turn generation on or off.\n"
