@@ -636,7 +636,7 @@ fs::path GetDefaultDataDir()
     // Unix: ~/.vircles
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "Syscoin";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "Vircles";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -646,7 +646,7 @@ fs::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/Syscoin";
+    return pathRet / "Library/Application Support/Vircles";
 #else
     // Unix
     return pathRet / ".vircles";
