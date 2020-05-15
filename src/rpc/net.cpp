@@ -25,6 +25,12 @@
 #include <version.h>
 #include <warnings.h>
 
+#include <wallet/rpcwallet.h>
+#include <wallet/wallet.h>
+#include <wallet/walletdb.h>
+#include <wallet/walletutil.h>
+
+
 #include <univalue.h>
 
 static UniValue getconnectioncount(const JSONRPCRequest& request)
@@ -533,6 +539,67 @@ static UniValue getnetworkinfo(const JSONRPCRequest& request)
     return obj;
 }
 
+
+static UniValue getinfo(const JSONRPCRequest& request)
+{
+            RPCHelpMan{"getinfo",
+                "Returns an object containing various state info regarding P2P networking.\n",
+                {},
+                RPCResult{
+            "{\n"
+            "  \"version\": xxxxx,                      (numeric) the server version\n"
+            "  \"subversion\": \"/Satoshi:x.x.x/\",     (string) the server subversion string\n"
+            "  \"protocolversion\": xxxxx,              (numeric) the protocol version\n"
+            "  \"walletversion\": xxxxx,            (numeric) the wallet version\n"
+            "  \"balance\": xxxxxxx,                (numeric) DEPRECATED. Identical to getbalances().mine.trusted\n"
+            "  \"blocks\": xxxxxx,                      (numeric) the height of the most-work fully-validated chain. The genesis block has height 0\n"
+            "  \"timeoffset\": xxxxx,                   (numeric) the time offset\n"
+            "  \"connections\": xxxxx,                  (numeric) the number of connections\n"
+            "  \"relayfee\": x.xxxxxxxx,                (numeric) minimum relay fee for transactions in " + CURRENCY_UNIT + "/kB\n"
+            "  \"difficulty\": xxxxxx,                  (numeric) the current difficulty\n"
+            "}\n"
+                },
+                RPCExamples{
+                    HelpExampleCli("getinfo", "")
+            + HelpExampleRpc("getinfo", "")
+                },
+            }.Check(request);
+            
+    std::shared_ptr<CWallet> const wallet = GetWalletForJSONRPCRequest(request);
+    CWallet* const pwallet = wallet.get();
+
+    if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
+        return NullUniValue;
+    }
+            
+    LOCK(cs_main);
+    const CBlockIndex* tip = ::ChainActive().Tip();    
+    UniValue obj(UniValue::VOBJ);
+    obj.pushKV("version",       CLIENT_VERSION);
+    obj.pushKV("subversion",    strSubVersion);
+    obj.pushKV("protocolversion",PROTOCOL_VERSION);
+    
+    size_t kpExternalSize = pwallet->KeypoolCountExternalKeys();
+    const auto bal = pwallet->GetBalance();
+    obj.pushKV("walletversion", pwallet->GetVersion());
+    obj.pushKV("balance", ValueFromAmount(bal.m_mine_trusted));    
+    
+    obj.pushKV("blocks",                (int)::ChainActive().Height());
+    obj.pushKV("timeoffset",    GetTimeOffset());
+    if (g_rpc_node->connman) {
+        obj.pushKV("connections",   (int)g_rpc_node->connman->GetNodeCount(CConnman::CONNECTIONS_ALL));
+    }
+    obj.pushKV("proxy",      "");            
+    obj.pushKV("difficulty",            (double)GetDifficulty(tip));
+    obj.pushKV("testnet", false);
+    obj.pushKV("keypoololdest", pwallet->GetOldestKeyPoolTime());
+    obj.pushKV("keypoolsize", (int64_t)kpExternalSize);
+    obj.pushKV("paytxfee", ValueFromAmount(pwallet->m_pay_tx_fee.GetFeePerK()));    
+    obj.pushKV("relayfee",      ValueFromAmount(::minRelayTxFee.GetFeePerK()));
+    obj.pushKV("errors",       GetWarnings(false));
+    return obj;
+}
+
 static UniValue setban(const JSONRPCRequest& request)
 {
     const RPCHelpMan help{"setban",
@@ -751,6 +818,7 @@ static const CRPCCommand commands[] =
     { "network",            "getaddednodeinfo",       &getaddednodeinfo,       {"node"} },
     { "network",            "getnettotals",           &getnettotals,           {} },
     { "network",            "getnetworkinfo",         &getnetworkinfo,         {} },
+    { "network",            "getinfo",                &getinfo,                {} },
     { "network",            "setban",                 &setban,                 {"subnet", "command", "bantime", "absolute"} },
     { "network",            "listbanned",             &listbanned,             {} },
     { "network",            "clearbanned",            &clearbanned,            {} },
