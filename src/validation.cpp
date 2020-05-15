@@ -2377,7 +2377,8 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
             LogPrintf("txNew.vout[1].nValue=%d, PerformanceCoin + nHalfFee=%s\n", FormatMoney(txNew.vout[1].nValue), FormatMoney(PerformanceCoin + nHalfFee));
             if (txNew.vout[1].scriptPubKey != PerformancePubKey || txNew.vout[1].nValue > PerformanceCoin + nHalfFee + 0.001 * COIN) {
                 LogPrintf("IsBlockPayeeValid -- Valid performance fund payment at height %d: %s\n", nBlockHeight, txNew.ToString());
-                return false;
+                // return false;
+                return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-performance-amount");
             }
 
             //community fund
@@ -2388,7 +2389,8 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
             CAmount CommunityCoin = (TwoFundReward * Params().GetCommunityPercent()) / 100;
             if (txNew.vout[2].scriptPubKey != CommunityPubKey || txNew.vout[2].nValue > CommunityCoin + nHalfFee + 0.001 * COIN) {
                 LogPrintf("IsBlockPayeeValid -- Valid community fund payment at height %d: %s\n", nBlockHeight, txNew.ToString());
-                return false;
+                // return false;
+                return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-community-amount");
             }
             
             //technology fund
@@ -2399,7 +2401,8 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
             CAmount TechnologyCoin = (TwoFundReward * Params().GetTechnologyPercent()) / 100;
             if (txNew.vout[3].scriptPubKey != TechnologyPubKey || txNew.vout[3].nValue > TechnologyCoin + nHalfFee + 0.001 * COIN) {
                 LogPrintf("IsBlockPayeeValid -- Valid technology fund payment at height %d: %s\n", nBlockHeight, txNew.ToString());
-                return false;
+                // return false;
+                return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-technology-amount");
             }
         } else {
             nHalfFee = nFees / nVout;
@@ -2411,7 +2414,8 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
             CAmount PerformanceCoin = (nBlockReward * Params().GetPerformancePercent()) / 100;
             if (txNew.vout[1].scriptPubKey != PerformancePubKey || txNew.vout[1].nValue > PerformanceCoin + nHalfFee + 0.001 * COIN) {
                 LogPrintf("IsBlockPayeeValid -- Valid performance fund payment at height %d: %s\n", nBlockHeight, txNew.ToString());
-                return false;
+                // return false;
+                return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-performance-amount");
             }
         } 
     }
