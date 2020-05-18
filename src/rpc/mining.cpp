@@ -906,7 +906,7 @@ static UniValue getblocktemplate(const JSONRPCRequest& request)
     result.pushKV("bits", strprintf("%08x", pblock->nBits));
     result.pushKV("height", (int64_t)(pindexPrev->nHeight+1));
 
-    //////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////// add by luke
     UniValue fundObjArray(UniValue::VARR);
     if (pblocktemplate->block.vtx[0]->vout.size()) {
         int i = 0;
@@ -919,9 +919,11 @@ static UniValue getblocktemplate(const JSONRPCRequest& request)
             entry.pushKV("amount", txout.nValue);
             fundObjArray.push_back(entry);
             i++;
-            if (i >= pblocktemplate->block.vtx[0]->vout.size() - 2) {
-                break;
-            }
+            if (pblocktemplate->block.vtx[0]->vout.size() <= 3) {
+                if (i == 1) { break; }
+            } else {
+                if (i == 4) { break; }
+            } 
         }
     }
     result.pushKV("fund", fundObjArray);
