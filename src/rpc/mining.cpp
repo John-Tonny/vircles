@@ -905,6 +905,28 @@ static UniValue getblocktemplate(const JSONRPCRequest& request)
     result.pushKV("curtime", pblock->GetBlockTime());
     result.pushKV("bits", strprintf("%08x", pblock->nBits));
     result.pushKV("height", (int64_t)(pindexPrev->nHeight+1));
+
+    //////////////////////////////////////////////////////////
+    UniValue fundObjArray(UniValue::VARR);
+    if (pblocktemplate->block.vtx[0]->vout.size()) {
+        int i = 0;
+        for (const auto& txout : pblocktemplate->block.vtx[0]->vout) {
+            UniValue entry(UniValue::VOBJ);
+            CTxDestination fundAddr;
+            ExtractDestination(txout.scriptPubKey, fundAddr);
+            entry.pushKV("payee", EncodeDestination(fundAddr));
+            entry.pushKV("script", HexStr(txout.scriptPubKey));
+            entry.pushKV("amount", txout.nValue);
+            fundObjArray.push_back(entry);
+            i++;
+            if (i >= pblocktemplate->block.vtx[0]->vout.size() - 2) {
+                break;
+            }
+        }
+    }
+    result.pushKV("fund", fundObjArray);
+    //////////////////////////////////////////////////////////
+
     UniValue masternodeObj(UniValue::VOBJ);
     if(pblocktemplate->txoutMasternode != CTxOut()) {
         CTxDestination address1;
