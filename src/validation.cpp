@@ -1369,11 +1369,11 @@ CAmount GetBlockSubsidy(unsigned int nHeight, const Consensus::Params& consensus
     if (nHeight == 1)
     if (!bRegtest && nHeight == 1) {
         // SYSCOIN 4 snapshot
-        nTotalRewardWithMasternodes = 1000001 * COIN;
+        nTotalRewardWithMasternodes = 5000001 * COIN;
         return nTotalRewardWithMasternodes;
     }
 
-    CAmount nSubsidy = 66.6 * COIN;
+    CAmount nSubsidy = 62 * COIN;
     int reductions = nHeight / consensusParams.nSubsidyHalvingInterval;
     if (reductions >= 50) {
         nTotalRewardWithMasternodes = 0;
