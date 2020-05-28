@@ -796,12 +796,16 @@ UniValue getaddressdeltas(const JSONRPCRequest& request)
             RPCHelpMan{"getaddressdeltas",
                 "\nReturns all changes for an address (requires addressindex to be enabled).\n",
                 { 
-                  {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "",
+                  {"", RPCArg::Type::OBJ, RPCArg::Optional::NO, "",
                     {
-                      {"address",  RPCArg::Type::STR, RPCArg::Optional::NO, "The base58check encoded address"},
+                      {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "",
+                        {
+                          {"address",  RPCArg::Type::STR, RPCArg::Optional::NO, "The base58check encoded address"},
+                        },
+                      },
+                      {"start", RPCArg::Type::NUM, RPCArg::Optional::OMITTED, "The start block height"},                                        
+                      {"end", RPCArg::Type::NUM, RPCArg::Optional::OMITTED, "The end block height"},
                     },
-                    "  \"start\" (number) The start block height\n"
-                    "  \"end\" (number) The end block height\n"
                   },
                 },
                 RPCResult{
@@ -932,37 +936,18 @@ UniValue getaddressbalance(const JSONRPCRequest& request)
 
 UniValue getaddresstxids(const JSONRPCRequest& request)
 {
-    if (request.fHelp || request.params.size() != 1)
-        throw std::runtime_error(
-            "getaddresstxids\n"
-            "\nReturns the txids for an address(es) (requires addressindex to be enabled).\n"
-            "\nArguments:\n"
-            "{\n"
-            "  \"addresses\"\n"
-            "    [\n"
-            "      \"address\"  (string) The base58check encoded address\n"
-            "      ,...\n"
-            "    ]\n"
-            "  \"start\" (number) The start block height\n"
-            "  \"end\" (number) The end block height\n"
-            "}\n"
-            "\nResult:\n"
-            "[\n"
-            "  \"transactionid\"  (string) The transaction id\n"
-            "  ,...\n"
-            "]\n"
-            "\nExamples:\n"
-            + HelpExampleCli("getaddresstxids", "'{\"addresses\": [\"Sawad6TBVpCS84MDWiRsWrxurW2gqFe2v4\"]}'")
-            + HelpExampleRpc("getaddresstxids", "{\"addresses\": [\"Sawad6TBVpCS84MDWiRsWrxurW2gqFe2v4\"]}")
-        );
-        
-        
             RPCHelpMan{"getaddresstxids",
                 "\nReturns the txids for an address(es) (requires addressindex to be enabled).\n",
                 { 
-                  {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "",
-                    {
-                      {"address",  RPCArg::Type::STR, RPCArg::Optional::NO, "The base58check encoded address"},
+                  {"", RPCArg::Type::OBJ, RPCArg::Optional::NO, "",
+                    {                
+                      {"addresses", RPCArg::Type::ARR, RPCArg::Optional::NO, "",
+                        {
+                          {"address",  RPCArg::Type::STR, RPCArg::Optional::NO, "The base58check encoded address"},
+                        },
+                      },
+                      {"start", RPCArg::Type::NUM, RPCArg::Optional::OMITTED, "The start block height"},                                        
+                      {"end", RPCArg::Type::NUM, RPCArg::Optional::OMITTED, "The end block height"},
                     },
                   },
                 },
@@ -977,45 +962,12 @@ UniValue getaddresstxids(const JSONRPCRequest& request)
               },
             }.Check(request);
         
-    /*
-    CTxDestination dest = DecodeDestination(request.params[0].get_str());
-    bool isValid = IsValidDestination(dest);
-
-    UniValue ret(UniValue::VOBJ);
-    ret.pushKV("isvalid", isValid);
-    if (isValid) {
-        std::string currentAddress = EncodeDestination(dest);
-        ret.pushKV("address", currentAddress);
-
-        CScript scriptPubKey = GetScriptForDestination(dest);
-        ret.pushKV("scriptPubKey", HexStr(scriptPubKey.begin(), scriptPubKey.end()));
-
-        UniValue detail = DescribeAddress(dest);
-        ret.pushKVs(detail);
-    }
-    return ret;
-    */
-    
     std::vector<std::pair<uint160, int> > addresses;
 
     if (!getAddressesFromParams(request.params, addresses)) {
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address lht");
-    }
-    throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address lht2");
-    
-    /*
-    UniValue result(UniValue::VARR);
-    if (request.params[0].isStr()) {
-      result.pushKV("aaa", request.params[0]);
-    }
-    
-    if (request.params[0].isObject()) {
-      result.pushKV("txid", "aaa");    
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
     }
 
-    result.pushKV("txid", "123");
-
-    
     int start = 0;
     int end = 0;
     if (request.params[0].isObject()) {
@@ -1062,9 +1014,8 @@ UniValue getaddresstxids(const JSONRPCRequest& request)
             result.push_back(it->second);
         }
     }
-    
+
     return result;
-    */
 }
 
 UniValue getspentinfo(const JSONRPCRequest& request)
