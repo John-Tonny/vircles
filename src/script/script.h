@@ -539,6 +539,11 @@ public:
      * pay-to-script-hash transactions:
      */
     unsigned int GetSigOpCount(const CScript& scriptSig) const;
+    
+    // john
+    bool IsPayToPublicKeyHash() const;
+    /** Used for obsolete pay-to-pubkey addresses indexing. */
+    bool IsPayToPublicKey() const;
 
     bool IsPayToScriptHash() const;
     bool IsPayToWitnessScriptHash() const;

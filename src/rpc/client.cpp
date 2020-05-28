@@ -234,6 +234,16 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "syscoinsetethheaders", 0, "headers" },
     { "listassetindex", 0, "page" },
     { "listassetindex", 1, "options" },
+    // john
+    { "getblockhashes", 0, "high" },
+    { "getblockhashes", 1, "low" },
+    { "getspentinfo", 0, "json"},
+    { "getaddressmempool", 0, "addresses"},
+    { "getaddressutxos", 0, "addresses"},
+    { "getaddressdeltas", 0, "addresses"},
+    { "getaddresstxids", 0, "addresses"},
+    { "getaddressbalance", 0, "addresses"},
+   
 };
 // clang-format on
 
