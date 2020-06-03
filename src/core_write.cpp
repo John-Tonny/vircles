@@ -16,6 +16,8 @@
 #include <util/strencodings.h>
 // SYSCOIN
 #include <services/asset.h>
+#include <spentindex.h>
+#include <validation.h>
 UniValue ValueFromAmount(const CAmount& amount)
 {
     bool sign = amount < 0;
@@ -200,6 +202,44 @@ void TxToUniv(const CTransaction& tx, const uint256& hashBlock, UniValue& entry,
             o.pushKV("asm", ScriptToAsmStr(txin.scriptSig, true));
             o.pushKV("hex", HexStr(txin.scriptSig.begin(), txin.scriptSig.end()));
             in.pushKV("scriptSig", o);
+            // john
+            CSpentIndexValue spentInfo;
+            CSpentIndexKey spentKey(txin.prevout.hash, txin.prevout.n);
+            if (GetSpentIndex(spentKey, spentInfo)) {
+                std::vector<unsigned char> data;
+                in.pushKV("value", ValueFromAmount(spentInfo.satoshis));                
+                if (spentInfo.addressType == TX_PUBKEYHASH ) {
+                    data.push_back(0x76);
+                    data.push_back(0xa9);
+                    data.push_back(0x14);
+                    data.insert(data.end(), spentInfo.addressHash.begin(), spentInfo.addressHash.begin() + 20);
+                    data.push_back(0x88);
+                    data.push_back(0xac);                    
+                }else if (spentInfo.addressType == TX_SCRIPTHASH) {
+                    data.push_back(0xa9);
+                    data.push_back(0x14);
+                    data.insert(data.end(), spentInfo.addressHash.begin(), spentInfo.addressHash.begin() + 20);
+                    data.push_back(0x87);
+                }else if (spentInfo.addressType == TX_WITNESS_V0_KEYHASH) {
+                    data.push_back(0x00);
+                    data.push_back(0x14);
+                    data.insert(data.end(), spentInfo.addressHash.begin(), spentInfo.addressHash.begin() + 20);
+                }else if (spentInfo.addressType == TX_WITNESS_V0_SCRIPTHASH) {
+                    data.push_back(0x00);
+                    data.push_back(0x20);
+                    data.insert(data.end(), spentInfo.addressHash.begin(), spentInfo.addressHash.end());
+                }
+                
+                CScript scriptPubKey(data.begin(), data.end());
+                CTxDestination dest;
+                if (ExtractDestination(scriptPubKey, dest)) {
+                    std::string address = EncodeDestination(dest);
+                    txnouttype type = txnouttype(spentInfo.addressType);
+                    in.pushKV("type", GetTxnOutputType(type));
+                    in.pushKV("address", address);
+                }
+            }
+
             if (!tx.vin[i].scriptWitness.IsNull()) {
                 UniValue txinwitness(UniValue::VARR);
                 for (const auto& item : tx.vin[i].scriptWitness.stack) {

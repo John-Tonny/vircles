@@ -452,13 +452,14 @@ void CTxMemPool::addAddressIndex(const CTxMemPoolEntry &entry, const CCoinsViewC
         std::vector<std::vector<unsigned char>> data;
         txnouttype addressType = Solver(prevout.scriptPubKey, data);
         
-        uint160 addressHash;        
+        uint256 addressHash;        
         if (addressType > 0 && addressType != TX_NULL_DATA){
-            if (addressType != TX_PUBKEY){  
-                addressHash = uint160(data[0]);
-            }else {
-                addressHash = Hash160(data[0].begin(), data[0].end());
+            if (addressType == TX_PUBKEY){  
+                uint160 address160Hash = Hash160(data[0].begin(), data[0].end());
+                std::copy(address160Hash.begin(), address160Hash.end(), addressHash.begin()); 
                 addressType = TX_PUBKEYHASH;
+            }else {
+                std::copy(data[0].begin(), data[0].end(), addressHash.begin()); 
             }
             CMempoolAddressDeltaKey key(addressType, addressHash, txhash, j, 1);
             CMempoolAddressDelta delta(entry.GetTime1(), prevout.nValue * -1, input.prevout.hash, input.prevout.n);
@@ -473,13 +474,14 @@ void CTxMemPool::addAddressIndex(const CTxMemPoolEntry &entry, const CCoinsViewC
         std::vector<std::vector<unsigned char>> data;
         txnouttype addressType = Solver(out.scriptPubKey, data);
         
-        uint160 addressHash;
+        uint256 addressHash;
         if (addressType > 0 && addressType != TX_NULL_DATA){
-            if (addressType != TX_PUBKEY){  
-                addressHash = uint160(data[0]);
+            if (addressType == TX_PUBKEY){  
+                uint160 address160Hash = Hash160(data[0].begin(), data[0].end());
+                std::copy(address160Hash.begin(), address160Hash.end(), addressHash.begin()); 
+                addressType = TX_PUBKEYHASH;            
             }else {
-                addressHash = Hash160(data[0].begin(), data[0].end());
-                addressType = TX_PUBKEYHASH;
+                std::copy(data[0].begin(), data[0].end(), addressHash.begin()); 
             }
             CMempoolAddressDeltaKey key(addressType, addressHash, txhash, k, 0);
             mapAddress.insert(std::make_pair(key, CMempoolAddressDelta(entry.GetTime1(), out.nValue)));
@@ -490,11 +492,11 @@ void CTxMemPool::addAddressIndex(const CTxMemPoolEntry &entry, const CCoinsViewC
     mapAddressInserted.insert(std::make_pair(txhash, inserted));
 }
 
-bool CTxMemPool::getAddressIndex(std::vector<std::pair<uint160, int> > &addresses,
+bool CTxMemPool::getAddressIndex(std::vector<std::pair<uint256, int> > &addresses,
                                  std::vector<std::pair<CMempoolAddressDeltaKey, CMempoolAddressDelta> > &results)
 {
     LOCK(cs);
-    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
+    for (std::vector<std::pair<uint256, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
         addressDeltaMap::iterator ait = mapAddress.lower_bound(CMempoolAddressDeltaKey((*it).second, (*it).first));
         while (ait != mapAddress.end() && (*ait).first.addressBytes == (*it).first && (*ait).first.type == (*it).second) {
             results.push_back(*ait);
@@ -532,17 +534,18 @@ void CTxMemPool::addSpentIndex(const CTxMemPoolEntry &entry, const CCoinsViewCac
         const CTxIn input = tx.vin[j];
         const Coin& coin = view.AccessCoin(input.prevout);
         const CTxOut &prevout = coin.out;
-        uint160 addressHash;
+        uint256 addressHash;
 
         std::vector<std::vector<unsigned char>> data;
         txnouttype addressType = Solver(prevout.scriptPubKey, data);
         
         if (addressType > 0 && addressType != TX_NULL_DATA){
-            if (addressType != TX_PUBKEY){  
-                addressHash = uint160(data[0]);
+            if (addressType == TX_PUBKEY){  
+                uint160 address160Hash = Hash160(data[0].begin(), data[0].end());
+                std::copy(address160Hash.begin(), address160Hash.end(), addressHash.begin()); 
+                addressType = TX_PUBKEYHASH;            
             }else {
-                addressHash = Hash160(data[0].begin(), data[0].end());
-                addressType = TX_PUBKEYHASH;
+                std::copy(data[0].begin(), data[0].end(), addressHash.begin()); 
             }
         }else{
             addressHash.SetNull();

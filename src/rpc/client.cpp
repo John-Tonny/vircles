@@ -237,6 +237,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     // john
     { "getblockhashes", 0, "high" },
     { "getblockhashes", 1, "low" },
+    { "getblockhashes", 2, "options" },
     { "getspentinfo", 0, "json"},
     { "getaddressmempool", 0, "addresses"},
     { "getaddressutxos", 0, "addresses"},

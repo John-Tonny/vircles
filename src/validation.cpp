@@ -1204,7 +1204,7 @@ bool GetSpentIndex(CSpentIndexKey &key, CSpentIndexValue &value)
     return true;
 }
 
-bool GetAddressIndex(uint160 addressHash, int type,
+bool GetAddressIndex(uint256 addressHash, int type,
                      std::vector<std::pair<CAddressIndexKey, CAmount> > &addressIndex, int start, int end)
 {
     if (!fAddressIndex)
@@ -1216,7 +1216,7 @@ bool GetAddressIndex(uint160 addressHash, int type,
     return true;
 }
 
-bool GetAddressUnspent(uint160 addressHash, int type,
+bool GetAddressUnspent(uint256 addressHash, int type,
                        std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > &unspentOutputs)
 {
     if (!fAddressIndex)
@@ -1977,12 +1977,13 @@ DisconnectResult CChainState::DisconnectBlock(const CBlock& block, const CBlockI
                 txnouttype addressType = Solver(out.scriptPubKey, data);
                 
                 if (addressType > 0 && addressType != TX_NULL_DATA){
-                  uint160 hashBytes;
-                    if (addressType != TX_PUBKEY){  
-                        hashBytes = uint160(data[0]);
-                    }else {
-                        hashBytes = Hash160(data[0].begin(), data[0].end());
+                  uint256 hashBytes;
+                    if (addressType == TX_PUBKEY){  
+                        uint160 hash160Bytes = Hash160(data[0].begin(), data[0].end());
+                        std::copy(hash160Bytes.begin(), hash160Bytes.end(), hashBytes.begin()); 
                         addressType = TX_PUBKEYHASH;
+                    }else {
+                        std::copy(data[0].begin(), data[0].end(), hashBytes.begin()); 
                     }
                     // undo receiving activity
                     addressIndex.push_back(std::make_pair(CAddressIndexKey(addressType, hashBytes, pindex->nHeight, i, hash, k, false), out.nValue));
@@ -2043,12 +2044,13 @@ DisconnectResult CChainState::DisconnectBlock(const CBlock& block, const CBlockI
                     txnouttype addressType = Solver(prevout.scriptPubKey, data);
                     
                     if (addressType > 0 && addressType != TX_NULL_DATA){
-                        uint160 hashBytes;
-                        if (addressType != TX_PUBKEY){  
-                            hashBytes = uint160(data[0]);
-                        }else {
-                            hashBytes = Hash160(data[0].begin(), data[0].end());
+                        uint256 hashBytes;
+                        if (addressType == TX_PUBKEY){  
+                            uint160 hash160Bytes = Hash160(data[0].begin(), data[0].end());
+                            std::copy(hash160Bytes.begin(), hash160Bytes.end(), hashBytes.begin()); 
                             addressType = TX_PUBKEYHASH;
+                        }else {
+                            std::copy(data[0].begin(), data[0].end(), hashBytes.begin()); 
                         }
                         
                         // undo spending activity                        
@@ -2443,13 +2445,14 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
                     std::vector<std::vector<unsigned char>> data;
                     txnouttype addressType = Solver(prevout.scriptPubKey, data);
                     
-                    uint160 hashBytes;
+                    uint256 hashBytes;
                     if (addressType > 0 && addressType != TX_NULL_DATA){
-                        if (addressType != TX_PUBKEY){  
-                            hashBytes = uint160(data[0]);
-                        }else {
-                            hashBytes = Hash160(data[0].begin(), data[0].end());
+                        if (addressType == TX_PUBKEY){  
+                            uint160 hash160Bytes = Hash160(data[0].begin(), data[0].end());
+                            std::copy(hash160Bytes.begin(), hash160Bytes.end(), hashBytes.begin()); 
                             addressType = TX_PUBKEYHASH;
+                        }else {
+                            std::copy(data[0].begin(), data[0].end(), hashBytes.begin()); 
                         }
                     }else{
                         hashBytes.SetNull();
@@ -2479,13 +2482,14 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
                 std::vector<std::vector<unsigned char>> data;
                 txnouttype addressType = Solver(out.scriptPubKey, data);
                 
-                uint160 hashBytes;
+                uint256 hashBytes;
                 if (addressType > 0 && addressType != TX_NULL_DATA){
-                    if (addressType != TX_PUBKEY){  
-                        hashBytes = uint160(data[0]);
-                    }else {
-                        hashBytes = Hash160(data[0].begin(), data[0].end());
+                    if (addressType == TX_PUBKEY){  
+                        uint160 hash160Bytes = Hash160(data[0].begin(), data[0].end());
+                        std::copy(hash160Bytes.begin(), hash160Bytes.end(), hashBytes.begin()); 
                         addressType = TX_PUBKEYHASH;
+                    }else {
+                        std::copy(data[0].begin(), data[0].end(), hashBytes.begin()); 
                     }
                     // record receiving activity
                     addressIndex.push_back(std::make_pair(CAddressIndexKey(addressType, hashBytes, pindex->nHeight, i, txhash, k, false), out.nValue));
@@ -2495,7 +2499,6 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
                 }else{
                     continue;
                 }
-
             }
         }
 

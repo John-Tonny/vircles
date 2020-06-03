@@ -65,6 +65,7 @@ void TxToJSON(const CTransaction& tx, const uint256 hashBlock, UniValue& entry)
         CBlockIndex* pindex = LookupBlockIndex(hashBlock);
         if (pindex) {
             if (::ChainActive().Contains(pindex)) {
+                entry.pushKV("height", pindex->nHeight);
                 entry.pushKV("confirmations", 1 + ::ChainActive().Height() - pindex->nHeight);
                 entry.pushKV("time", pindex->GetBlockTime());
                 entry.pushKV("blocktime", pindex->GetBlockTime());
@@ -142,6 +143,7 @@ static UniValue getrawtransaction(const JSONRPCRequest& request)
             "     ,...\n"
             "  ],\n"
             "  \"blockhash\" : \"hash\",   (string) the block hash\n"
+            "  \"height\" : n,             (numeric) the block height\n"
             "  \"confirmations\" : n,      (numeric) The confirmations\n"
             "  \"blocktime\" : ttt         (numeric) The block time expressed in " + UNIX_EPOCH_TIME + "\n"
             "  \"time\" : ttt,             (numeric) Same as \"blocktime\"\n"

@@ -207,10 +207,24 @@ static UniValue validateaddress(const JSONRPCRequest& request)
 
         UniValue detail = DescribeAddress(dest);
         ret.pushKVs(detail);
-        
-        
+
+        /*unsigned int required;
+        std::vector<std::vector<unsigned char>> keys;
+        if (MatchMultisig(scriptPubKey, required, keys)) {
+            ret.pushKV("required", required);        
+        }*/               
+
         std::vector<std::vector<unsigned char>> data;
         txnouttype txntype = Solver(scriptPubKey, data);
+                        
+        uint256 hashBytes;
+        if (txntype == TX_PUBKEY){  
+	          uint160 hash160Bytes = Hash160(data[0].begin(), data[0].end());
+            std::copy(hash160Bytes.begin(), hash160Bytes.end(), hashBytes.begin()); 
+            txntype = TX_PUBKEYHASH;
+        }else {
+            std::copy(data[0].begin(), data[0].end(), hashBytes.begin()); 
+        }        
         
         if (txntype == TX_PUBKEY) {
             ret.pushKV("type", txntype);
@@ -230,14 +244,19 @@ static UniValue validateaddress(const JSONRPCRequest& request)
         if (txntype == TX_WITNESS_V0_SCRIPTHASH ) {
             ret.pushKV("type", txntype);
         }
-    
-        CTxDestination dest;
-        if (ExtractDestination(scriptPubKey, dest)) {
-            if (GetScriptForDestination(dest) == scriptPubKey) {
-                ret.pushKV("type", txntype);
-            }
+      
+        std::vector<unsigned char> vchHash = ParseHex("0014238d7c915d249ba76fe6c4d9f15bbec570d1a557");
+        CScript scriptPubKey2(vchHash.begin(), vchHash.end());
+        CTxDestination dest1;
+        if (ExtractDestination(scriptPubKey2, dest1)) {
+            CScript scriptPubKey1 = GetScriptForDestination(dest1);
+            ret.pushKV("scriptPubKey1", HexStr(scriptPubKey1.begin(), scriptPubKey1.end()));
+            std::string currentAddress1 = EncodeDestination(dest1);
+            ret.pushKV("address1", currentAddress1);
         }        
         
+
+
     }
     return ret;
 }
@@ -543,32 +562,41 @@ static UniValue setmocktime(const JSONRPCRequest& request)
 }
 
 // john
-bool getAddressFromIndex(const int &type, const uint160 &hash, std::string &address)
-{
-    /*
-    if (type == 2) {
-        address = CBitcoinAddress(CScriptID(hash)).ToString();
-    } else if (type == 1) {
-        address = CBitcoinAddress(CKeyID(hash)).ToString();
-    } else {
-        return false;
-    }*/
+bool getAddressFromIndex(const int &type, const uint256 &hash, std::string &address)
+{    
+    std::vector<unsigned char> data;
+    if (type == TX_PUBKEYHASH ) {
+        data.push_back(0x76);
+        data.push_back(0xa9);
+        data.push_back(0x14);
+        data.insert(data.end(), hash.begin(), hash.begin() + 20);
+        data.push_back(0x88);
+        data.push_back(0xac);                    
+    }else if (type == TX_SCRIPTHASH) {
+        data.push_back(0xa9);
+        data.push_back(0x14);
+        data.insert(data.end(), hash.begin(), hash.begin() + 20);
+        data.push_back(0x87);
+    }else if (type == TX_WITNESS_V0_KEYHASH) {
+        data.push_back(0x00);
+        data.push_back(0x14);
+        data.insert(data.end(), hash.begin(), hash.begin() + 20);
+    }else if (type == TX_WITNESS_V0_SCRIPTHASH) {
+        data.push_back(0x00);
+        data.push_back(0x20);
+        data.insert(data.end(), hash.begin(), hash.end());
+    }
     
-    if (type == 2){
-        std::vector<unsigned char> vch(1,0x3f);
-        vch.insert(vch.end(), hash.begin(), hash.end());
-        address = EncodeBase58Check(vch);
-    } else if (type == 3) {
-        std::vector<unsigned char> vch(1,0x05);
-        vch.insert(vch.end(), hash.begin(), hash.end());
-        address = EncodeBase58Check(vch);
-    }else {
-        return false;
-    }    
-    return true;
+    CScript scriptPubKey(data.begin(), data.end());
+    CTxDestination dest;
+    if (ExtractDestination(scriptPubKey, dest)) {
+        address = EncodeDestination(dest);
+        return true;
+    }        
+    return false;
 }
 
-bool getAddressesFromParams(const UniValue& params, std::vector<std::pair<uint160, int> > &addresses)
+bool getAddressesFromParams(const UniValue& params, std::vector<std::pair<uint256, int> > &addresses)
 {
     if (params[0].isStr()) {
         CTxDestination dest = DecodeDestination(params[0].get_str());
@@ -580,21 +608,14 @@ bool getAddressesFromParams(const UniValue& params, std::vector<std::pair<uint16
             std::vector<std::vector<unsigned char>> data;
             txnouttype txntype = Solver(scriptPubKey, data);
             
+            uint256 hashBytes;
             if (txntype == TX_PUBKEY) {
-                uint160 hashBytes(data[0]);
+                uint160 hash160Bytes = Hash160(data[0].begin(), data[0].end());
+                std::copy(hash160Bytes.begin(), hash160Bytes.end(), hashBytes.begin()); 
+                txntype = TX_PUBKEYHASH;
                 addresses.push_back(std::make_pair(hashBytes, txntype));
-            }else if (txntype == TX_PUBKEYHASH) {
-                uint160 hashBytes(data[0]);
-                addresses.push_back(std::make_pair(hashBytes, txntype));
-            }else if (txntype == TX_SCRIPTHASH) {
-                uint160 hashBytes(data[0]);
-                addresses.push_back(std::make_pair(hashBytes, txntype));
-            }else if (txntype == TX_MULTISIG) {
-              	throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address TX_MULTISIG");
-            }else if (txntype == TX_WITNESS_V0_SCRIPTHASH) {
-              	throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address TX_WITNESS_V0_SCRIPTHASH");
-            }else if (txntype == TX_WITNESS_V0_KEYHASH) {
-                uint160 hashBytes(data[0]);
+            }else if (txntype == TX_PUBKEYHASH || txntype == TX_SCRIPTHASH || txntype == TX_WITNESS_V0_KEYHASH || txntype == TX_WITNESS_V0_SCRIPTHASH) {
+                std::copy(data[0].begin(), data[0].end(), hashBytes.begin()); 
                 addresses.push_back(std::make_pair(hashBytes, txntype));
             }else{
               	throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
@@ -619,21 +640,14 @@ bool getAddressesFromParams(const UniValue& params, std::vector<std::pair<uint16
                 std::vector<std::vector<unsigned char>> data;
                 txnouttype txntype = Solver(scriptPubKey, data);
                 
+                uint256 hashBytes;
                 if (txntype == TX_PUBKEY) {
-                    uint160 hashBytes(data[0]);
+                    uint160 hash160Bytes = Hash160(data[0].begin(), data[0].end());
+                    std::copy(hash160Bytes.begin(), hash160Bytes.end(), hashBytes.begin()); 
+                    txntype = TX_PUBKEYHASH;
                     addresses.push_back(std::make_pair(hashBytes, txntype));
-                }else if (txntype == TX_PUBKEYHASH) {
-                    uint160 hashBytes(data[0]);
-                    addresses.push_back(std::make_pair(hashBytes, txntype));
-                }else if (txntype == TX_SCRIPTHASH) {
-                    uint160 hashBytes(data[0]);
-                    addresses.push_back(std::make_pair(hashBytes, txntype));
-                }else if (txntype == TX_MULTISIG) {
-                  	throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address TX_MULTISIG");
-                }else if (txntype == TX_WITNESS_V0_SCRIPTHASH) {
-                  	throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address TX_WITNESS_V0_SCRIPTHASH");
-                }else if (txntype == TX_WITNESS_V0_KEYHASH) {
-                    uint160 hashBytes(data[0]);
+                }else if (txntype == TX_PUBKEYHASH || txntype == TX_SCRIPTHASH || txntype == TX_WITNESS_V0_KEYHASH || txntype == TX_WITNESS_V0_SCRIPTHASH) {
+                    std::copy(data[0].begin(), data[0].end(), hashBytes.begin()); 
                     addresses.push_back(std::make_pair(hashBytes, txntype));
                 }else{
                   	throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
@@ -687,7 +701,7 @@ UniValue getaddressmempool(const JSONRPCRequest& request)
               },
             }.Check(request);
 
-    std::vector<std::pair<uint160, int> > addresses;
+    std::vector<std::pair<uint256, int> > addresses;
 
     if (!getAddressesFromParams(request.params, addresses)) {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
@@ -754,7 +768,7 @@ UniValue getaddressutxos(const JSONRPCRequest& request)
               },
             }.Check(request);
 
-    std::vector<std::pair<uint160, int> > addresses;
+    std::vector<std::pair<uint256, int> > addresses;
 
     if (!getAddressesFromParams(request.params, addresses)) {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
@@ -762,7 +776,7 @@ UniValue getaddressutxos(const JSONRPCRequest& request)
 
     std::vector<std::pair<CAddressUnspentKey, CAddressUnspentValue> > unspentOutputs;
 
-    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
+    for (std::vector<std::pair<uint256, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
         if (!GetAddressUnspent((*it).first, (*it).second, unspentOutputs)) {
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
         }
@@ -838,7 +852,7 @@ UniValue getaddressdeltas(const JSONRPCRequest& request)
         }
     }
 
-    std::vector<std::pair<uint160, int> > addresses;
+    std::vector<std::pair<uint256, int> > addresses;
 
     if (!getAddressesFromParams(request.params, addresses)) {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
@@ -846,7 +860,7 @@ UniValue getaddressdeltas(const JSONRPCRequest& request)
 
     std::vector<std::pair<CAddressIndexKey, CAmount> > addressIndex;
 
-    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
+    for (std::vector<std::pair<uint256, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
         if (start > 0 && end > 0) {
             if (!GetAddressIndex((*it).first, (*it).second, addressIndex, start, end)) {
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
@@ -902,7 +916,7 @@ UniValue getaddressbalance(const JSONRPCRequest& request)
               },
             }.Check(request);
         
-    std::vector<std::pair<uint160, int> > addresses;
+    std::vector<std::pair<uint256, int> > addresses;
 
     if (!getAddressesFromParams(request.params, addresses)) {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
@@ -910,7 +924,7 @@ UniValue getaddressbalance(const JSONRPCRequest& request)
 
     std::vector<std::pair<CAddressIndexKey, CAmount> > addressIndex;
 
-    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
+    for (std::vector<std::pair<uint256, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
         if (!GetAddressIndex((*it).first, (*it).second, addressIndex)) {
             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");
         }
@@ -962,7 +976,7 @@ UniValue getaddresstxids(const JSONRPCRequest& request)
               },
             }.Check(request);
         
-    std::vector<std::pair<uint160, int> > addresses;
+    std::vector<std::pair<uint256, int> > addresses;
 
     if (!getAddressesFromParams(request.params, addresses)) {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
@@ -981,7 +995,7 @@ UniValue getaddresstxids(const JSONRPCRequest& request)
 
     std::vector<std::pair<CAddressIndexKey, CAmount> > addressIndex;
 
-    for (std::vector<std::pair<uint160, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
+    for (std::vector<std::pair<uint256, int> >::iterator it = addresses.begin(); it != addresses.end(); it++) {
         if (start > 0 && end > 0) {
             if (!GetAddressIndex((*it).first, (*it).second, addressIndex, start, end)) {
                 throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "No information available for address");

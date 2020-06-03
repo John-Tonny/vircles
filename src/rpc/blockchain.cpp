@@ -737,8 +737,14 @@ UniValue getblockhashes(const JSONRPCRequest& request)
             RPCHelpMan{"getblockhashes",
                 "\nReturns array of hashes of blocks within the timestamp range provided.\n",
                 {
-                    {"high", RPCArg::Type::NUM, RPCArg::Optional::NO, "The newer block timestamp"},
-                    {"low", RPCArg::Type::NUM, RPCArg::Optional::NO, "The older block timestamp"},
+                    {"high", RPCArg::Type::NUM, RPCArg::Optional::NO, "The newer block timestamp."},
+                    {"low", RPCArg::Type::NUM, RPCArg::Optional::NO, "The older block timestamp."},
+                    {"options", RPCArg::Type::OBJ, /* default */ "", "",
+                        {
+                            {"noOrphans", RPCArg::Type::BOOL, /* default */ "false", "Only include blocks on the main chain."},
+                            {"logicalTimes", RPCArg::Type::BOOL, /* default */ "false", "Include logical timestamps with hashes."},
+                        },
+                        "options"},
                 },
                 RPCResult{
             "\"hash\"         (string) The block hash\n"
@@ -2470,7 +2476,7 @@ static const CRPCCommand commands[] =
     { "blockchain",         "getblockcount",          &getblockcount,          {} },
     { "blockchain",         "getblock",               &getblock,               {"blockhash","verbosity|verbose"} },
     // john
-    { "blockchain",         "getblockhashes",         &getblockhashes,         {"timestamp"} },
+    { "blockchain",         "getblockhashes",         &getblockhashes,         {"hig", "low", "options"} },
     
     { "blockchain",         "getblockhash",           &getblockhash,           {"height"} },
     { "blockchain",         "getblockheader",         &getblockheader,         {"blockhash","verbose"} },

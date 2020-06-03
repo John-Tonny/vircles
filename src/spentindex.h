@@ -44,7 +44,7 @@ struct CSpentIndexValue {
     int blockHeight;
     CAmount satoshis;
     int addressType;
-    uint160 addressHash;
+    uint256 addressHash;
 
     ADD_SERIALIZE_METHODS;
 
@@ -58,7 +58,7 @@ struct CSpentIndexValue {
         READWRITE(addressHash);
     }
 
-    CSpentIndexValue(uint256 t, unsigned int i, int h, CAmount s, int type, uint160 a) {
+    CSpentIndexValue(uint256 t, unsigned int i, int h, CAmount s, int type, uint256 a) {
         txid = t;
         inputIndex = i;
         blockHeight = h;
@@ -159,7 +159,7 @@ struct CTimestampIndexKey {
 
 struct CAddressUnspentKey {
     unsigned int type;
-    uint160 hashBytes;
+    uint256 hashBytes;
     uint256 txhash;
     size_t index;
 
@@ -181,7 +181,7 @@ struct CAddressUnspentKey {
         index = ser_readdata32(s);
     }
 
-    CAddressUnspentKey(unsigned int addressType, uint160 addressHash, uint256 txid, size_t indexValue) {
+    CAddressUnspentKey(unsigned int addressType, uint256 addressHash, uint256 txid, size_t indexValue) {
         type = addressType;
         hashBytes = addressHash;
         txhash = txid;
@@ -237,7 +237,7 @@ struct CAddressUnspentValue {
 
 struct CAddressIndexKey {
     unsigned int type;
-    uint160 hashBytes;
+    uint256 hashBytes;
     int blockHeight;
     unsigned int txindex;
     uint256 txhash;
@@ -271,7 +271,7 @@ struct CAddressIndexKey {
         spending = f;
     }
 
-    CAddressIndexKey(unsigned int addressType, uint160 addressHash, int height, int blockindex,
+    CAddressIndexKey(unsigned int addressType, uint256 addressHash, int height, int blockindex,
                      uint256 txid, size_t indexValue, bool isSpending) {
         type = addressType;
         hashBytes = addressHash;
@@ -300,7 +300,7 @@ struct CAddressIndexKey {
 
 struct CAddressIndexIteratorKey {
     unsigned int type;
-    uint160 hashBytes;
+    uint256 hashBytes;
 
     size_t GetSerializeSize(int nType, int nVersion) const {
         return 21;
@@ -316,7 +316,7 @@ struct CAddressIndexIteratorKey {
         hashBytes.Unserialize(s);
     }
 
-    CAddressIndexIteratorKey(unsigned int addressType, uint160 addressHash) {
+    CAddressIndexIteratorKey(unsigned int addressType, uint256 addressHash) {
         type = addressType;
         hashBytes = addressHash;
     }
@@ -333,7 +333,7 @@ struct CAddressIndexIteratorKey {
 
 struct CAddressIndexIteratorHeightKey {
     unsigned int type;
-    uint160 hashBytes;
+    uint256 hashBytes;
     int blockHeight;
 
     size_t GetSerializeSize(int nType, int nVersion) const {
@@ -352,7 +352,7 @@ struct CAddressIndexIteratorHeightKey {
         blockHeight = ser_readdata32be(s);
     }
 
-    CAddressIndexIteratorHeightKey(unsigned int addressType, uint160 addressHash, int height) {
+    CAddressIndexIteratorHeightKey(unsigned int addressType, uint256 addressHash, int height) {
         type = addressType;
         hashBytes = addressHash;
         blockHeight = height;
